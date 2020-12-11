@@ -7,8 +7,8 @@ export const useStyles = makeStyles((theme) => ({
   menuButton: {
     marginRight: theme.spacing(2),
   },
-  title: {
-    display: 'none',
+  brand: {
+    marginRight: "20px",
     [theme.breakpoints.up('sm')]: {
       display: 'block',
     },

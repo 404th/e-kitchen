@@ -4,7 +4,6 @@ import Footer from './Components/Footer/footer'
 import Layout from './layout'
 // MATERIAL-UI
 import Grid from '@material-ui/core/Grid'
-import Container from '@material-ui/core/Container'
 
 function App() {
   return (
@@ -12,14 +11,10 @@ function App() {
       <Grid item xs={12}>
         <Header />
       </Grid>
-      <Container maxWidth={'lg'}>
-        <Grid container>
-          <Grid item xs={12}>
-            <Layout />
-          </Grid>
-        </Grid>
-      </Container>
-      <Grid>
+      <Grid item xs={12}>
+        <Layout />
+      </Grid>
+      <Grid item xs={12}>
         <Footer />
       </Grid>
     </div>
