@@ -28,6 +28,9 @@ export const useStyles = makeStyles((theme) => ({
       width: 'auto',
     },
   },
+  shoppingCardLink: {
+    textDecoration: "none !important",
+  },
   searchIcon: {
     padding: theme.spacing(0, 2),
     height: '100%',

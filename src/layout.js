@@ -3,6 +3,7 @@ import { useState } from 'react'
 import { Route, Switch } from 'react-router-dom'
 //COMPONENTS
 import Home from './Components/Home/home'
+import ShoppingCard from './Components/ShoppingCard/shoppingCard'
 
 function Layout(){
   
@@ -12,7 +13,8 @@ function Layout(){
     <>
       {
         Logged ? <Switch>
-          <Route path={"/"} component={ Home } />
+          <Route exact path={"/"} component={ Home } />
+          <Route path={"/shopping-card"} component={ ShoppingCard } />
         </Switch>
         : <div>"Nothing is here!"</div>
       }
