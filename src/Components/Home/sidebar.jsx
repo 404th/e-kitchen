@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import List from '@material-ui/core/List';
+import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
-import MailIcon from '@material-ui/icons/Mail';
+import SelectAllIcon from '@material-ui/icons/SelectAll';
 import Grid from '@material-ui/core/Grid';
+import StorefrontIcon from '@material-ui/icons/Storefront';
 import { useStyles } from './style/homeStyles'
 
 
@@ -23,18 +24,24 @@ function Sidebar () {
       <Grid item xs={2} >
         <div className={classes.drawerContainer}>
           <List className={classes.sidebarHome}>
-            {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-              <ListItem button key={text}>
-                <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-                <ListItemText primary={ textToFilter ? text : "" } />
-              </ListItem>
-            ))}
+            <Typography align={"center"} color={"primary"} variant={"h3"}>Filter</Typography>
           </List>
           <Divider />
           <List className={classes.sidebarHome}>
-            {['All mail', 'Trash', 'Spam'].map((text, index) => (
-              <ListItem button key={text}>
-                <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
+            <ListItem button key={"All categories"}>
+              <ListItemIcon>
+                <SelectAllIcon />
+              </ListItemIcon>
+              <ListItemText primary={ textToFilter ? "All categories" : ""  } />
+            </ListItem>
+          </List>
+          <Divider />
+          <List className={classes.sidebarHome}>
+            {['Vegetables', 'Fruits', 'Fast Foods', 'Dairy', 'Bread', 'Seasoning and Spices', 'Drinks'].map((text, index) => (
+              <ListItem button key={index}>
+                <ListItemIcon>
+                  <StorefrontIcon />
+                </ListItemIcon>
                 <ListItemText primary={ textToFilter ? text : ""  } />
               </ListItem>
             ))}

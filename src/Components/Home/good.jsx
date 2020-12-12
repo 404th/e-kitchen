@@ -9,7 +9,6 @@ import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCart';
-
 import { useStyles } from './style/goodStyles'
 
 function Good(props){
@@ -20,7 +19,7 @@ function Good(props){
       <CardHeader
         avatar={
           <Avatar aria-label="recipe" className={classes.avatar}>
-            R
+            D
           </Avatar>
         }
         title="Shrimp and Chorizo Paella"

@@ -10,7 +10,7 @@ export const useStyles = makeStyles((theme) => ({
   root: {
     boxShadow: "0 0 15px 10px #efefef",
     maxWidth: 350,
-    margin: "15px",
+    margin: "7px 15px",
 
     [theme.breakpoints.up('md')]: {
       maxWidth:325,
@@ -18,7 +18,7 @@ export const useStyles = makeStyles((theme) => ({
     },
     [theme.breakpoints.up('sm')]: {
       maxWidth:300,
-      margin: "10px"
+      margin: "5px 10px"
     },
     transition: "0.5s",
     // "&:hover":{
@@ -28,15 +28,14 @@ export const useStyles = makeStyles((theme) => ({
   media: {
     position:"relative",
     paddingTop: '56.25%', // 16:9
-    transition:'0.5s',
+    transition:'1s',
     "&::before":{
-      content:"",
+      content:"''",
       width:"100%",
       height:0,
       position:"absolute",
       top:0,
       left:0,
-      backgroundColor: "rgba( 0, 0, 0, 0.3 )"
     },
     "&:hover":{
       "&::before":{
