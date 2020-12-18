@@ -1,8 +1,12 @@
-// GOODS
-export const foodAction = () => {
-  return {
-    type:"food",
-    payload:[
+
+import { createContext } from 'react'
+
+export const MyState = createContext()
+
+function GlobalState( props ){
+  
+  const state = {
+    foods:[
       {
         imgSrc:"./photos/header/food1.jpg",
         aboutMeal:
@@ -40,6 +44,12 @@ export const foodAction = () => {
       },
     ]
   }
+  
+  return (
+    <MyState.Provider value={ state }>
+      { props.children }
+    </MyState.Provider>
+  )
 }
 
-
+export default GlobalState

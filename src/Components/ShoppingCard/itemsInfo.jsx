@@ -24,7 +24,6 @@ function ItemsInfo(){
       ...addressValues,
       [name]:value
     })
-    console.log( addressValues )
   }
 
   return(

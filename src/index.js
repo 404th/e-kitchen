@@ -4,23 +4,15 @@ import reportWebVitals from './reportWebVitals';
 import "../node_modules/normalize.css"
 import App from './App'
 import { BrowserRouter as Router } from 'react-router-dom'
-// REDUX
-import { createStore } from 'redux'
-import { Provider } from 'react-redux'
-import allReducers from './reducers/combiner'
-
-// Creating Store
-const myStore = createStore(
-  allReducers,
-  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
-)
+// GLOBAL STORE
+import GlobalState from './GlobalState'
 
 ReactDOM.render(
-  <Provider store={ myStore }>
+  <GlobalState>
     <Router>
       <App />
     </Router>
-  </Provider>
+  </GlobalState>
   ,
   document.getElementById('root')
 );
