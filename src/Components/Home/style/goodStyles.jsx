@@ -20,10 +20,6 @@ export const useStyles = makeStyles((theme) => ({
       maxWidth:300,
       margin: "5px 10px"
     },
-    transition: "0.5s",
-    // "&:hover":{
-    //   backgroundColor: "#ffd3e1",
-    // }
   },
   media: {
     position:"relative",
