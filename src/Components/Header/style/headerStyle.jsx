@@ -65,4 +65,24 @@ export const useStyles = makeStyles((theme) => ({
       display: 'none',
     },
   },
+  menuItemLinkCover:{
+    padding:"0",
+  },
+  menuItemLink: {
+    width: "100%",
+    height: "100%",
+    textAlign:"center",
+    textDecoration:"none",
+    color:"#000",
+    padding:" 5px 10px",
+    transition:"0.1s",
+    "&:hover":{
+      backgroundColor:"#0e49b5",
+      color:"white"
+    },
+    "&:active":{
+      backgroundColor:"#efefef",
+      color:"blue"
+    },
+  }
 }));

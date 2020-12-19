@@ -13,6 +13,8 @@ import ItemsInfo from './itemsInfo'
 
 import { useStyles } from './style/shoppingCardStyle'
 
+import { Link } from 'react-router-dom'
+
 const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
@@ -29,13 +31,18 @@ function BuyButton(){
     setOpen(false);
   };
 
+  // sending items to BACK
+  const handleOrderItems = e => {
+    console.log( e )
+    handleClose()
+  }
+
   return (
     <>
       <Button
         className={ classes.buyLinkButton }
         onClick={handleClickOpen}
         variant="contained"
-        // color="primary"
       > Buy </Button>
       <Dialog fullScreen open={open} onClose={handleClose} TransitionComponent={Transition}>
         <AppBar className={classes.dialogAppBar}>
@@ -44,11 +51,17 @@ function BuyButton(){
               <CloseIcon />
             </IconButton>
             <Typography variant="h6" className={classes.dialogTitle}>
-              Sound
+              Shopping Check
             </Typography>
-            <Button autoFocus color="inherit" onClick={handleClose}>
+            <Link
+              className={ classes.placeOrderButton }
+              autoFocus
+              color="inherit"
+              onClick={ e => { handleOrderItems(e) }}
+              to={ "/order-success" }
+            >
               Place order
-            </Button>
+            </Link>
           </Toolbar>
         </AppBar>
         <Container>

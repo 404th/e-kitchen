@@ -4,11 +4,15 @@ import reportWebVitals from './reportWebVitals';
 import "../node_modules/normalize.css"
 import App from './App'
 import { BrowserRouter as Router } from 'react-router-dom'
+// GLOBAL STORE
+import GlobalState from './GlobalState'
 
 ReactDOM.render(
-  <Router>
-    <App />
-  </Router>
+  <GlobalState>
+    <Router>
+      <App />
+    </Router>
+  </GlobalState>
   ,
   document.getElementById('root')
 );

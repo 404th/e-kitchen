@@ -11,7 +11,7 @@ function Home(){
   return (
     <Grid container>
       <Sidebar />
-      <Grid className={ classes.goodsContainer } item xs={10}>
+      <Grid className={ classes.goodsContainer } item xs={12} sm={8} md={9} lg={10}>
         <Goods />
       </Grid>
     </Grid>

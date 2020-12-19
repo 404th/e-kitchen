@@ -26,16 +26,16 @@ export const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
     padding: theme.spacing(3),
   },
-  textOfFilter: {
-    [theme.breakpoints.up('sm')]: {
-      display: 'none',
-    },
-    [theme.breakpoints.up('xs')]: {
-      display: 'none',
-    }
-  },
   sidebarHome: {
-    overflow:"hidden"
+    overflow:"hidden",
+    display:"flex !important",
+    flexDirection:"column !important",
+    flexWrap:"no-wrap !important",
+    padding:"15px",
+    minHeight:"1px"
+  },
+  filterTitle:{
+    fontFamily: "'Langar', cursive !important",
   },
   goodsContainer: {
     padding:"20px",
@@ -44,5 +44,17 @@ export const useStyles = makeStyles((theme) => ({
     flexWrap:'wrap',
     justifyContent:"center",
     alignItems:"center"
+  },
+  categoryButton:{
+    backgroundColor:"#98acf8"
+  },
+  categoryButtonTitle: {
+    fontFamily: "'Langar', cursive",
+    fontWeight:"1000",
+  },
+  truncate: {
+    overflow: "hidden!important",
+    textOverflow: "ellipsis!important",
+    whiteSpace: "nowrap!importan"
   }
 }));

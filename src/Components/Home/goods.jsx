@@ -1,53 +1,27 @@
-import React from 'react';
-
+import React, { useContext } from 'react'
 //COMPONENTS
 import Good from './good'
+// LOADING
+// import Loading from '../Loading/loading'
+// GLOBAL STATE
+import { MyState } from '../../GlobalState'
 
 function Goods() {
-
+  const { foods } = useContext( MyState )
 
   return (
     <>
-      <Good
-        imgSrc={"./photos/header/food1.jpg"}
-        aboutMeal={
-          "This impressive paella is lorem10 sadsa aasdasdasdasf  asfa s adasfsdffsdf a perfect party dish and a fun meal to cook together with your guests. Add 1 cup of frozen peas along with the mussels, if you like."
-        } />
-      <Good
-        imgSrc={"./photos/header/food2.jpg"}
-        aboutMeal={
-          "This impressive paella is a perfect party dish and a fun meal to cook together with your guests. Add 1 cup of frozen peas along with the mussels, if you like."
-        } />
-      <Good
-        imgSrc={"./photos/header/food3.jpg"}
-        aboutMeal={
-          "This impressive paella is a perfect party dish and a fun meal to cook together with your guests. Add 1 cup of frozen peas along with the mussels, if you like."
-        } />
-      <Good
-        imgSrc={"./photos/header/food4.jpg"}
-        aboutMeal={
-          "This impressive paella is a perfect party dish and a fun meal to cook together with your guests. Add 1 cup of frozen peas along with the mussels, if you like."
-        } />
-      <Good
-        imgSrc={"./photos/header/food5.jpg"}
-        aboutMeal={
-          "This impressive paella is a perfect party dish and a fun meal to cook together with your guests. Add 1 cup of frozen peas along with the mussels, if you like."
-        } />
-      <Good
-        imgSrc={"./photos/header/food6.jpg"}
-        aboutMeal={
-          "This impressive paella is a perfect party dish and a fun meal to cook together with your guests. Add 1 cup of frozen peas along with the mussels, if you like."
-        } />
-      <Good
-        imgSrc={"./photos/header/food7.jpg"}
-        aboutMeal={
-          "This impressive paella is a perfect party dish and a fun meal to cook together with your guests. Add 1 cup of frozen peas along with the mussels, if you like."
-        } />
-      <Good
-        imgSrc={"./photos/header/food8.jpg"}
-        aboutMeal={
-          "This impressive paella is a perfect party dish and a fun meal to cook together with your guests. Add 1 cup of frozen peas along with the mussels, if you like."
-        } />
+      {
+        foods.map( (good, index) => {
+          return (
+              <Good
+                key={ index }
+                imgSrc={ good.imgSrc }
+                aboutMeal={ good.aboutMeal }
+              />
+          )
+        } )
+      }
     </>
   );
 }

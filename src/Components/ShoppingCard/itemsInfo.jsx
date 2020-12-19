@@ -1,9 +1,12 @@
 import React, { useState } from 'react'
 import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
+import Button from '@material-ui/core/Button'
 import TextField from '@material-ui/core/TextField';
 
 import { useStyles } from './style/shoppingCardStyle'
+
+import OrderedItems from './orderedItems'
 
 function ItemsInfo(){
   const classes = useStyles()
@@ -21,15 +24,14 @@ function ItemsInfo(){
       ...addressValues,
       [name]:value
     })
-    console.log( addressValues )
   }
 
   return(
-    <Grid className={ classes.itemsCard } container>
+    <Grid container>
       <Grid className={ classes.sideTitle } item xs={12}>
         <Typography className={ classes.sideTitleOwn }>Shipping</Typography>
       </Grid>
-      <Grid className={ classes.sideAddress } item xs={6}>
+      <Grid className={ classes.sideAddress } item xs={12} sm={12} md={6} lg={6}>
         <div className={ classes.sideAddressCover }>
           <form className={ classes.sideAddressCoverForm }>
             <TextField
@@ -39,7 +41,7 @@ function ItemsInfo(){
               value={ addressValues.name }
               label="Name"
               variant="outlined"
-              id="mui-theme-provider-outlined-input"
+              id="mui-theme-provider-outlined-input1"
               autoComplete={"off"}
             />
             <TextField
@@ -49,7 +51,7 @@ function ItemsInfo(){
               value={ addressValues.address1 }
               label="Address 1"
               variant="outlined"
-              id="mui-theme-provider-outlined-input"
+              id="mui-theme-provider-outlined-input2"
               autoComplete={"off"}
             />
             <TextField
@@ -59,7 +61,7 @@ function ItemsInfo(){
               value={ addressValues.address2 }
               label="Address 2"
               variant="outlined"
-              id="mui-theme-provider-outlined-input"
+              id="mui-theme-provider-outlined-input3"
               autoComplete={"off"}
             />
             <TextField
@@ -69,13 +71,24 @@ function ItemsInfo(){
               value={ addressValues.city }
               label="City"
               variant="outlined"
-              id="mui-theme-provider-outlined-input"
+              id="mui-theme-provider-outlined-input4"
               autoComplete={"off"}
             />
+            <Button variant={"outlined"} color={"primary"} onClick={ () => setAddressValues({
+              name:"",
+              address1:"",
+              address2:"",
+              city:""
+            }) } >CLEAR</Button>
           </form>
         </div>
       </Grid>
-      <Grid className={ classes.sideCardInfo } item xs={6}></Grid>
+      <Grid className={ classes.sideCardInfo } item xs={12} sm={12} md={6} lg={6}>
+        <div className={ classes.sideCardInfoCover }>
+            <Typography variant={"h5"}>Order Summary</Typography>
+            <OrderedItems />
+        </div>
+      </Grid>
     </Grid>
   )
 }

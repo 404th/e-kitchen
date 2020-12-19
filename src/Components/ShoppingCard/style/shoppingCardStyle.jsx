@@ -1,13 +1,12 @@
 import { makeStyles } from '@material-ui/core/styles'
 
 export const useStyles = makeStyles( theme => ({
-  avatarItemInCard: {
-  },
   titleShoppingCard:{
     fontFamily: "'Langar', cursive",
     fontWeight: 1000,
     color:"#fdb827",
-    marginBottom: "20px"
+    marginBottom: "20px",
+    userSelect:"none"
   },
   quantityNum:{
     margin: "0 10px !important",
@@ -51,7 +50,7 @@ export const useStyles = makeStyles( theme => ({
     fontWeight:"bolder",
     fontSize:"35px",
   },
-  // 
+  //
   dialogAppBar: {
     position: 'relative',
   },
@@ -59,10 +58,21 @@ export const useStyles = makeStyles( theme => ({
     marginLeft: theme.spacing(2),
     flex: 1,
   },
-  itemsCard:{
-    backgroundColor:"#efefef"
+  placeOrderButton: {
+    backgroundColor:"#000",
+    userSelect:'none!important',
+    textDecoration:"none",
+    fontSize:"1.3em",
+    fontFamily: "'Langar', cursive",
+    padding:"8px",
+    borderRadius:"8px",
+    color:"#fff",
+    transition:"0.3s",
+    "&:hover":{
+      backgroundColor:"#fdb827",
+      color:"#000"
+    }
   },
-  sideTitle:{},
   sideTitleOwn:{
     color:"#fdb827",
     fontWeight:"bolder",
@@ -76,14 +86,15 @@ export const useStyles = makeStyles( theme => ({
     display:"inline-block !important",
     width:"100%",
     height:"100%",
-    padding:"0px"
-  },
-  sideAddressCoverForm:{
-    // display:"inline-block"
+    padding:"0px",
   },
   sideAddressCoverInput:{
     width:"90%",
-    margin:"15px"
+    margin:"15px !important"
   },
-  sideCardInfo:{},
+  sideCardInfo:{
+    padding:"30px",
+    border:"1px solid #efefef",
+    borderRadius:"15px"
+  },
 }))
