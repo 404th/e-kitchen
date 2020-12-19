@@ -31,10 +31,11 @@ function Header(){
   };
 
   const handleMobileMenuClose = () => {
-    setMobileMoreAnchorEl(null);
   };
-
+  
   const handleMenuClose = () => {
+    setMobileMoreAnchorEl(null)
+    // FOR EVERYBODY;
     setAnchorEl(null);
     handleMobileMenuClose();
   };
@@ -54,8 +55,23 @@ function Header(){
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-      <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+      <MenuItem className={ classes.menuItemLinkCover } onClick={handleMenuClose}>
+        <Link className={ classes.menuItemLink } to={"/profile"}>Profile</Link>
+      </MenuItem>
+      <MenuItem className={ classes.menuItemLinkCover } onClick={handleMenuClose}>
+        <Link className={ classes.menuItemLink } to={"/my-orders"}>My Orders</Link>
+      </MenuItem>
+      {/* FOR ADMINS */}
+      <MenuItem className={ classes.menuItemLinkCover } onClick={handleMenuClose}>
+        <Link className={ classes.menuItemLink } to={"/orders"}>Manage Orders</Link>
+      </MenuItem>
+      <MenuItem className={ classes.menuItemLinkCover } onClick={handleMenuClose}>
+        <Link className={ classes.menuItemLink } to={"/products"}>Manage Products</Link>
+      </MenuItem>
+      {/* FOR EVERYBODY */}
+      <MenuItem className={ classes.menuItemLinkCover } onClick={handleMenuClose}>
+        <Link className={ classes.menuItemLink } to={"/logout"}>Log out</Link>
+      </MenuItem>
     </Menu>
   );
 

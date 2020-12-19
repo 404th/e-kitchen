@@ -1,12 +1,13 @@
 import { makeStyles } from '@material-ui/core/styles'
 
 export const useStyles = makeStyles( theme => ({
+  avatarItemInCard: {
+  },
   titleShoppingCard:{
     fontFamily: "'Langar', cursive",
     fontWeight: 1000,
     color:"#fdb827",
-    marginBottom: "20px",
-    userSelect:"none"
+    marginBottom: "20px"
   },
   quantityNum:{
     margin: "0 10px !important",
@@ -32,12 +33,6 @@ export const useStyles = makeStyles( theme => ({
     color:"#fff",
     fontSize: "25px",
     fontWeight: "bolder",
-  },
-  buyButtonContainer:{
-    display:"flex",
-    justifyContent:"center",
-    alignItems:"center",
-    padding:"20px"
   },
   buyLinkButton:{
     padding:"0 10px",
