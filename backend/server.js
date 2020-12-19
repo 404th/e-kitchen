@@ -25,7 +25,7 @@ startServer()
 
 // ROUTERS
 const foodsRoute = require(`${__dirname}/routes/foodsRoute`)
-app.use( "/", foodsRoute )
+app.use( "", foodsRoute )
 
 
 
