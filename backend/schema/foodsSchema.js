@@ -12,6 +12,10 @@ const FoodsSchema = mongoose.Schema({
   },
   productAbout:{
     type: String
+  },
+  productCategory:{
+    type: String,
+    required:true
   }
   
 }, { timestamps: true })

@@ -7,17 +7,16 @@ import Good from './good'
 import { MyState } from '../../GlobalState'
 
 function Goods() {
-  const { foods } = useContext( MyState )
+  const { existProducts } = useContext( MyState )
 
   return (
     <>
       {
-        foods.map( (good, index) => {
+        existProducts.reverse(). map( (good, index) => {
           return (
               <Good
                 key={ index }
-                imgSrc={ good.imgSrc }
-                aboutMeal={ good.aboutMeal }
+                info={ good }
               />
           )
         } )

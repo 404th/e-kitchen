@@ -13,6 +13,7 @@ import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCart';
 import { useStyles } from './style/goodStyles'
 import { NOT_IMAGE } from '../../store'
 function Good(props){
+
   const classes = useStyles();
 
   //CHECKBOXES
@@ -35,18 +36,18 @@ function Good(props){
             D
           </Avatar>
         }
-        title="Shrimp and Chorizo Paella"
-        subheader="September 14, 2016"
+        title={ props.info.productName }
+        subheader={ `Price: $${props.info.productPrice}` }
       />
       <CardMedia
         className={classes.media}
         // image={ props.imgSrc }
         image={ NOT_IMAGE }
-        title="Paella dish"
+        title={ props.info.productName }
       />
       <CardContent>
-        <Typography className={ classes.truncate } variant="body2" color="textSecondary" component="p">
-          { props.aboutMeal }
+        <Typography noWrap variant="body2" color="textSecondary" component="p">
+          { props.info.productAbout }
         </Typography>
       </CardContent>
       <CardActions disableSpacing>

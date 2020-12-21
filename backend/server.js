@@ -1,6 +1,9 @@
 const mongoose = require("mongoose")
 const express = require("express")
+const cors = require("cors")
+mongoose.Promise = global.Promise
 const app = express()
+app.use( cors() )
 app.use( express.json() )
 // PROCESS WITH .env 
 const dotenv = require("dotenv")
