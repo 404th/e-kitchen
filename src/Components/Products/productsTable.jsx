@@ -1,51 +1,54 @@
-import { withStyles } from '@material-ui/core/styles';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import Avatar from '@material-ui/core/Avatar';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import Paper from '@material-ui/core/Paper';
+import { useContext, useEffect } from 'react'
+import { withStyles } from '@material-ui/core/styles'
+import Table from '@material-ui/core/Table'
+import TableBody from '@material-ui/core/TableBody'
+import TableCell from '@material-ui/core/TableCell'
+import Avatar from '@material-ui/core/Avatar'
+import TableContainer from '@material-ui/core/TableContainer'
+import TableHead from '@material-ui/core/TableHead'
+import TableRow from '@material-ui/core/TableRow'
+import Paper from '@material-ui/core/Paper'
 
 import { useStyles } from './style/productsStyle'
+import { MyState } from '../../GlobalState'
 
 // import { Link } from 'react-router-dom'
+import axios from 'axios'
+import { SERVER_URL } from '../../store'
 
 import EditProduct from './editProduct'
+import DeleteProduct from './deleteProduct'
 
 function ProductsTable(){
   const classes = useStyles()
+  const { setExistProducts, existProducts } = useContext( MyState )
 
   const StyledTableCell = withStyles((theme) => ({
     head: {
       backgroundColor: theme.palette.common.black,
-      color: theme.palette.common.white,
+      color: theme.palette.common.white
     },
     body: {
-      fontSize: 14,
+      fontSize: 14
     },
-  }))(TableCell);
-  
+  }))(TableCell)
+  // axios
+  function createData(num, name, price, about) {
+    return { num, name, price, about }
+  }
+  useEffect( () => {
+    axios.get( `${ SERVER_URL }/products` )
+      .then( res => setExistProducts( res.data.data ) )
+      .catch( err => console.log( err ) )
+  },[])
+
   const StyledTableRow = withStyles((theme) => ({
     root: {
       '&:nth-of-type(odd)': {
         backgroundColor: theme.palette.action.hover,
       },
-    },
-  }))(TableRow);
-
-  function createData(num, name, price, about) {
-    return { num, name, price, about };
-  }
-  
-  const rows = [
-    createData(1,'Frozen yoghurt', 159, "Very delecious food"),
-    createData(2,'Ice cream sandwich', 237, "Unexpected lovely!"),
-    createData(3,'Eclair', 262, "Very very very cool thing!"),
-    createData(4,'Cupcake', 305, "What a beautiful!"),
-    createData(5,'Gingerbread', 356, "Seriously tasty!"),
-  ];
+    }
+  }))(TableRow)
 
   return (
     <TableContainer className={ classes.productsTable } component={Paper}>
@@ -57,22 +60,29 @@ function ProductsTable(){
             <StyledTableCell align="center">Products</StyledTableCell>
             <StyledTableCell align="center">Price( $ )</StyledTableCell>
             <StyledTableCell align="center"></StyledTableCell>
+            <StyledTableCell align="center"></StyledTableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map((row) => (
-            <StyledTableRow key={row.name}>
-              <StyledTableCell align="center">{row.num}</StyledTableCell>
-              <StyledTableCell className={ classes.avatarItemInCard } component="th" scope="row">
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
-              </StyledTableCell>
-              <StyledTableCell align="center">{row.name}</StyledTableCell>
-              <StyledTableCell align="center">{row.price}</StyledTableCell>
-              <StyledTableCell className={ classes.editLinkProductCover } align="center">
-                <EditProduct />
-              </StyledTableCell>
-            </StyledTableRow>
-          ))}
+          {existProducts.reverse().map((pro, ind) => {
+            let row = createData( [ind+1], pro.productName, pro.productPrice, pro.productAbout )
+            return (
+              <StyledTableRow key={row.name}>
+                <StyledTableCell align="center">{row.num}</StyledTableCell>
+                <StyledTableCell className={ classes.avatarItemInCard } component="th" scope="row">
+                  <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
+                </StyledTableCell>
+                <StyledTableCell align="center">{row.name}</StyledTableCell>
+                <StyledTableCell align="center">{row.price}</StyledTableCell>
+                <StyledTableCell className={ classes.editLinkProductCover } align="center">
+                  <EditProduct id={ pro._id } />
+                </StyledTableCell>
+                <StyledTableCell className={ classes.editLinkProductCover } align="center">
+                  <DeleteProduct id={ pro._id } setExistProducts />
+                </StyledTableCell>
+              </StyledTableRow>
+            )
+          })}
         </TableBody>
       </Table>
     </TableContainer>
