@@ -27,23 +27,16 @@ function DeleteProduct( props ){
     try {
       axios.post( `${ SERVER_URL }/delete-product/${ props.id }`, {} )
         .then( async res => {
-          await axios.get( `${ SERVER_URL }/products` )
-            .then( resp => setExistProducts( resp.data.data ) )
+          axios.get( `${ SERVER_URL }/products` )
+            .then( resp => {
+              setExistProducts( resp.data.data )
+            } )
             .catch( err => console.log( err ) )
         } )
         .catch( err => console.log( err ) )
     } catch (err) {
       if( err ) throw err
     }
-
-    // try {
-    //   axios.get( `${ SERVER_URL }/products` )
-    //     .then( resp => setExistProducts( resp.data.data ) )
-    //     .catch( err => console.log( err ) )
-    // } catch (err) {
-    //   if(err) throw err
-    // }
-
   }
 
   return (

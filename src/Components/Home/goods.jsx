@@ -7,12 +7,20 @@ import Good from './good'
 import { MyState } from '../../GlobalState'
 
 function Goods() {
-  const { existProducts } = useContext( MyState )
+  const { existProducts, searchedForClientHeader } = useContext( MyState )
 
   return (
     <>
       {
-        existProducts.reverse(). map( (good, index) => {
+        searchedForClientHeader.length > 0 ?
+        searchedForClientHeader.reverse().map( (good, index) => {
+          return (
+              <Good
+                key={ index }
+                info={ good }
+              />
+          )
+        } ) : existProducts.reverse().map( (good, index) => {
           return (
               <Good
                 key={ index }

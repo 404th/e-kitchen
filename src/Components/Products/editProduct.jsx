@@ -68,9 +68,9 @@ function EditProduct( props ) {
 
   const handleAcceptEditInfo = async () => {
     try {
-      await axios.patch( `${ SERVER_URL }/edit-product/${ props.id }`, { ...editedValue } )
+      axios.patch( `${ SERVER_URL }/edit-product/${ props.id }`, { ...editedValue } )
         .then( async res => {
-          await axios.get( `${ SERVER_URL }/products` )
+          axios.get( `${ SERVER_URL }/products` )
             .then( resp => setExistProducts( resp.data.data ) )
             .catch( err => console.log( err ) )
             handleClose()
