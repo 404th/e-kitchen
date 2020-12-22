@@ -21,7 +21,7 @@ import DeleteProduct from './deleteProduct'
 
 function ProductsTable(){
   const classes = useStyles()
-  const { setExistProducts, existProducts } = useContext( MyState )
+  const { setExistProducts, existProducts, searchedExistProducts } = useContext( MyState )
 
   const StyledTableCell = withStyles((theme) => ({
     head: {
@@ -64,7 +64,7 @@ function ProductsTable(){
           </TableRow>
         </TableHead>
         <TableBody>
-          {existProducts.reverse().map((pro, ind) => {
+          { searchedExistProducts.length > 0 ? searchedExistProducts.reverse().map((pro, ind) => {
             let row = createData( [ind+1], pro.productName, pro.productPrice, pro.productAbout )
             return (
               <StyledTableRow key={row.name}>
@@ -72,13 +72,31 @@ function ProductsTable(){
                 <StyledTableCell className={ classes.avatarItemInCard } component="th" scope="row">
                   <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
                 </StyledTableCell>
-                <StyledTableCell align="center">{row.name}</StyledTableCell>
+                <StyledTableCell align="center" id={ pro.productName } >{row.name}</StyledTableCell>
                 <StyledTableCell align="center">{row.price}</StyledTableCell>
                 <StyledTableCell className={ classes.editLinkProductCover } align="center">
                   <EditProduct id={ pro._id } />
                 </StyledTableCell>
                 <StyledTableCell className={ classes.editLinkProductCover } align="center">
-                  <DeleteProduct id={ pro._id } setExistProducts />
+                  <DeleteProduct id={ pro._id } />
+                </StyledTableCell>
+              </StyledTableRow>
+            )
+          }) : existProducts.reverse().map((pro, ind) => {
+            let row = createData( [ind+1], pro.productName, pro.productPrice, pro.productAbout )
+            return (
+              <StyledTableRow key={row.name}>
+                <StyledTableCell align="center">{row.num}</StyledTableCell>
+                <StyledTableCell className={ classes.avatarItemInCard } component="th" scope="row">
+                  <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
+                </StyledTableCell>
+                <StyledTableCell align="center" id={ pro.productName } >{row.name}</StyledTableCell>
+                <StyledTableCell align="center">{row.price}</StyledTableCell>
+                <StyledTableCell className={ classes.editLinkProductCover } align="center">
+                  <EditProduct id={ pro._id } />
+                </StyledTableCell>
+                <StyledTableCell className={ classes.editLinkProductCover } align="center">
+                  <DeleteProduct id={ pro._id } />
                 </StyledTableCell>
               </StyledTableRow>
             )

@@ -15,10 +15,9 @@ const deleteProduct = async (req, res) => {
 
     await Product.deleteOne({_id: new mongodb.ObjectID( id.toString() )}, function(err, results) {
       if (err){
-        console.log("failed");
-        throw err;
+        return res.status( 400 ).json({ message:"Could not delete item!", errors:err })
       }
-      console.log("success");
+      return res.status( 200 ).json({ message:"Product deleted!" })
    });
 
   } catch (err) {

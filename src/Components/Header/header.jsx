@@ -1,5 +1,6 @@
 import React from 'react'
 //MATERIAL-UI
+import { MyState } from '../../GlobalState'
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
@@ -17,7 +18,7 @@ import { Link } from 'react-router-dom'
 import { useStyles } from './style/headerStyle'
 
 function Header(){
-  
+  const { existProducts, setSearchedForClientHeader } = React.useContext( MyState )
   const classes = useStyles()
 
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -43,6 +44,18 @@ function Header(){
   const handleMobileMenuOpen = (event) => {
     setMobileMoreAnchorEl(event.currentTarget);
   };
+
+  // Handle Search Product
+  const handleSearchProduct = e => {
+    let { value } = e.target
+
+    if( value !== "" ){
+      let searchedProds = existProducts.filter( item => item.productName.indexOf( value ) > -1  )
+      setSearchedForClientHeader( searchedProds )
+    } else {
+      setSearchedForClientHeader([])
+    }
+  }
 
   const menuId = 'primary-search-account-menu';
   const renderMenu = (
@@ -118,19 +131,22 @@ function Header(){
             <Link to={"/"}>
               <img className={classes.brand} src="./photos/header/food.png" alt="Food" width={"40px"}/>
             </Link>
-            <div className={classes.search}>
-              <div className={classes.searchIcon}>
-                <SearchIcon />
-              </div>
-              <InputBase
-                placeholder="Search…"
-                classes={{
-                  root: classes.inputRoot,
-                  input: classes.inputInput,
-                }}
-                inputProps={{ 'aria-label': 'search' }}
-              />
-            </div>
+            {
+              window.location.pathname === "/" ? (<div className={classes.search}>
+                <div className={classes.searchIcon}>
+                  <SearchIcon />
+                </div>
+                  <InputBase
+                    placeholder="Search…"
+                    classes={{
+                      root: classes.inputRoot,
+                      input: classes.inputInput,
+                    }}
+                    inputProps={{ 'aria-label': 'search' }}
+                    onChange={ e => { handleSearchProduct(e) } }
+                  />
+                </div>) : (<></>)
+            }
             <div className={classes.grow} />
             <div className={classes.sectionDesktop}>
               <Link className={classes.shoppingCardLink} to={"/shopping-card"}>
