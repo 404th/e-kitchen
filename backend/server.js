@@ -28,7 +28,9 @@ startServer()
 
 // ROUTERS
 const foodsRoute = require(`${__dirname}/routes/foodsRoute`)
+const userRoute = require(`${__dirname}/routes/userRoute`)
 app.use( "", foodsRoute )
+app.use( "/user", userRoute )
 
 
 
