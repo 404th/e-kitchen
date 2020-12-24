@@ -29,19 +29,21 @@ function Header(){
 
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
-  }
+  };
+
   const handleMobileMenuClose = () => {
-    setMobileMoreAnchorEl(null);
-  }
+  };
+  
   const handleMenuClose = () => {
     setMobileMoreAnchorEl(null)
     // FOR EVERYBODY;
     setAnchorEl(null);
     handleMobileMenuClose();
-  }
+  };
+
   const handleMobileMenuOpen = (event) => {
     setMobileMoreAnchorEl(event.currentTarget);
-  }
+  };
 
   // Handle Search Product
   const handleSearchProduct = e => {
@@ -54,6 +56,7 @@ function Header(){
       setSearchedForClientHeader([])
     }
   }
+
   const menuId = 'primary-search-account-menu';
   const renderMenu = (
     <Menu
@@ -84,6 +87,7 @@ function Header(){
       </MenuItem>
     </Menu>
   );
+
   const mobileMenuId = 'primary-search-account-menu-mobile';
   const renderMobileMenu = (
     <Menu
