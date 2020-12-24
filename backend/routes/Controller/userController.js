@@ -1,4 +1,5 @@
 const User = require(`../../schema/userSchema`)
+const { getToken } = require("../jwt")
 // postUser
 const postUser = validationResults => async (req, res) => {
 
@@ -17,24 +18,28 @@ const postUser = validationResults => async (req, res) => {
       signupPassword
     } = req.body
 
-    let newUser = await new User({
+    let savedUser = await User.create({
       username:signupUsername,
       email:signupEmail,
       phone:signupPhone,
       password:signupPassword
     })
-    let savedUser = await newUser.save()
+    // GET TOKEN AND WORKS WITH IT
+    const token = await getToken( savedUser._id )
+    await res.cookie( 'jwt_token', token, {
+      httpOnly: true,
+      maxAge: 1000 * 60 * 60 * 24 * 3,
+    } ) // for 3 days
+
     return res.status(200).json({
       message:"User saved!",
-      data:savedUser
+      data: savedUser
     })
-
   } catch (err) {
     if( err ) return res.status(500).json({
-      message:"SERVER FAILED while posting User!",
+      message:"FAILED while posting User!",
       errors: err
     })
   }
-
 }
 module.exports = { postUser }
