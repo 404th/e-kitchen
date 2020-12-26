@@ -9,20 +9,28 @@ import Orders from './Components/Orders/orders'
 import Products from './Components/Products/products'
 
 function Layout(){
-  
-  const [ Logged, setLogged ] = useState( true )
+
+  const [ logged, setLogged ] = useState( false )
   
   return (
     <>
       {
-        Logged ? <Switch>
+        logged ? <Switch>
           <Route exact path={"/"} component={ Home } />
-          <Route path={"/shopping-card"} component={ ShoppingCard } />
-          <Route path={"/order-success"} component={ OrderSuccess } />
-          <Route path={"/orders"} component={ Orders } />
-          <Route path={"/products"} component={ Products } />
+          <Route exact path={"/shopping-card"} component={ ShoppingCard } />
+          <Route exact path={"/order-success"} component={ OrderSuccess } />
+          <Route exact path={"/orders"} component={ Orders } />
+          <Route exact path={"/products"} component={ Products } />
+          <Route exact path={"/user/signup"} component={ Signup } />
+          <Route exact path={"/user/login"} component={ Login } />
+
+          <Redirect to={"/user/login"} />
+        </Switch> : <Switch>
+          <Route exact path={"/user/signup"} component={ Signup } />
+          <Route exact path={"/user/login"} component={ Login } />
+
+          <Redirect to={"/user/signup"} />
         </Switch>
-        : <div>"Nothing is here!"</div>
       }
     </>
   )
