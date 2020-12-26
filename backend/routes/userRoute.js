@@ -10,5 +10,4 @@ router.post( "/signup",[
   check("signupPassword", "Should be write down PASSWORD").isLength({min:1}),
 ],postUser( validationResult ) )
 
-
 module.exports = router

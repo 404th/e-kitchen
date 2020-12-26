@@ -1,45 +1,47 @@
 const User = require(`../../schema/userSchema`)
+
 const { getToken } = require("../jwt")
 // postUser
 const postUser = validationResults => async (req, res) => {
-
-  let ERRORS = validationResults(req)
-  if( !ERRORS.isEmpty() ){
-    return res.status(401).json({
-      message:"Validation ERRORS!",
-      errors:ERRORS
-    })
-  }
   try {
+    let ERRORS = validationResults(req)
+    if ( !ERRORS.isEmpty() ){
+      return res.status( 400 ).json({
+        message:"Validation error",
+        errors: ERRORS
+      })
+    }
+
     let {
       signupUsername,
       signupEmail,
       signupPhone,
-      signupPassword
+      signupPassword,
     } = req.body
 
-    let savedUser = await User.create({
-      username:signupUsername,
-      email:signupEmail,
-      phone:signupPhone,
-      password:signupPassword
+    let newUser = await User.create({
+      username: signupUsername,
+      email: signupEmail,
+      phone: signupPhone,
+      password: signupPassword
     })
-    // GET TOKEN AND WORKS WITH IT
-    const token = await getToken( savedUser._id )
-    await res.cookie( 'jwt_token', token, {
-      httpOnly: true,
-      maxAge: 1000 * 60 * 60 * 24 * 3,
-    } ) // for 3 days
-
-    return res.status(200).json({
+    let token = getToken( newUser._id )
+    res.cookie( "jwt", token, { maxAge: 86400000*3, httpOnly: true } )
+    res.user = newUser
+    return res.status(201).json({
       message:"User saved!",
-      data: savedUser
+      data: newUser._id
     })
+    
   } catch (err) {
-    if( err ) return res.status(500).json({
-      message:"FAILED while posting User!",
-      errors: err
-    })
+    if (err) {
+      return res.json({
+        message:"ERROR",
+        errors: err
+      })
+    }
   }
+
 }
+
 module.exports = { postUser }
