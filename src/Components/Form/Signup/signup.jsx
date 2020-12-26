@@ -10,8 +10,7 @@ import { Link } from 'react-router-dom'
 import axios from 'axios'
 import { SERVER_URL } from '../../../store'
 
-
-function Signup(){
+function Signup(props){
   const classes = useStyles()
   const [ signupUser, setSignupUser ] = useState({
     signupUsername:"",
@@ -28,16 +27,48 @@ function Signup(){
         [name]:value
       })
     }
-
+    // LOADING FOR NEW USER
+    let [ isSavedUser, setIsSavedUser ] = useState( true )
+    // SIGN UP NEW USER
     const handleSignupUserAxios = async () => {
 
       try {
-        await axios.post( `${ SERVER_URL }/user/signup`, { ...signupUser } )
-          .then( res => console.log( res ) )
-          .catch( err => console.log( err ) )      
-
+        // setting loading ON
+        setIsSavedUser( false )
+        // catching SAVED USER
+        let savedUser = await axios( `${ SERVER_URL }/user/signup`, {
+          method:"POST",
+          data:{...signupUser},
+        }, err => {
+          if( err ) {
+            console.log( "ERROR IN AXIOS" )
+            console.log(err)
+          }
+        } )
+        // setting loading OFF
+        if( savedUser ){
+          props.history.push("/user/login")
+          await setIsSavedUser( true )
+          setSignupUser({
+            signupUsername:"",
+            signupEmail:"",
+            signupPhone:"",
+            signupPassword:"",
+            signupPasswordAgain:"",
+          })
+          console.log( savedUser.user )
+        }
       } catch (err) {
-        if( err ) console.log( err )
+        if( err ) {
+          setIsSavedUser( false )
+          setSignupUser({
+            signupUsername:"",
+            signupEmail:"",
+            signupPhone:"",
+            signupPassword:"",
+            signupPasswordAgain:"",
+          })
+        }
       }
     }
 
@@ -58,6 +89,7 @@ function Signup(){
           >
             <TextField
               className={ classes.cover__signup__container_form_ }
+              disabled={ !isSavedUser }
               id="signupUsername"
               type={"text"}
               label="Username"
@@ -68,6 +100,7 @@ function Signup(){
             />
             <TextField
               className={ classes.cover__signup__container_form_ }
+              disabled={ !isSavedUser }
               id="signupEmail"
               type={"email"}
               label="Email"
@@ -78,6 +111,7 @@ function Signup(){
             />
             <TextField
               className={ classes.cover__signup__container_form_ }
+              disabled={ !isSavedUser }
               id="signupPhone"
               type={"number"}
               label="Phone number"
@@ -88,6 +122,7 @@ function Signup(){
             />
             <TextField
               className={ classes.cover__signup__container_form_ }
+              disabled={ !isSavedUser }
               id="signupPassword"
               type={ "password" }
               label="Password"
@@ -98,6 +133,7 @@ function Signup(){
             />
             <TextField
               className={ classes.cover__signup__container_form_ }
+              disabled={ !isSavedUser }
               id="signupPasswordAgain"
               type={ "password" }
               label="Password again"
@@ -109,6 +145,7 @@ function Signup(){
             <Grid className={ classes.cover__signup__container_button }>
               <Button
                 className={ classes.cover__signup__container_button_clear }
+                disabled={ !isSavedUser }
                 variant="contained"
                 color="primary"
                 onClick={ () => {
@@ -125,6 +162,7 @@ function Signup(){
               </Button>
               <Button
                 className={ classes.cover__signup__container_button_signup }
+                disabled={ !isSavedUser }
                 variant="contained"
                 color="primary"
                 onClick={ handleSignupUserAxios }
@@ -134,7 +172,11 @@ function Signup(){
             </Grid>
             <Grid className={ classes.cover__signup__container_links }>
               <Typography className={ classes.cover__signup__container_links_typography }>Have you registered?</Typography>
-              <Link className={ classes.cover__signup__container_links_link } to={"/login"}>LOGIN</Link>
+              <Link
+                className={ classes.cover__signup__container_links_link }
+                disabled={ !isSavedUser }
+                to={"/user/login"}
+              >LOGIN</Link>
             </Grid>
           </form>
         </Grid>

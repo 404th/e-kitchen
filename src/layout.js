@@ -12,26 +12,27 @@ import Login from './Components/Form/Login/login'
 
 function Layout(){
   
-  const [ Logged, setLogged ] = useState( false )
+  const [ logged, setLogged ] = useState( false )
   
   return (
     <>
       {
-        Logged ? <Switch>
+        logged ? <Switch>
           <Route exact path={"/"} component={ Home } />
           <Route exact path={"/shopping-card"} component={ ShoppingCard } />
           <Route exact path={"/order-success"} component={ OrderSuccess } />
           <Route exact path={"/orders"} component={ Orders } />
           <Route exact path={"/products"} component={ Products } />
-          <Route exact path={"/signup"} component={ Signup } />
-          <Route exact path={"/login"} component={ Login } />
+          <Route exact path={"/user/signup"} component={ Signup } />
+          <Route exact path={"/user/login"} component={ Login } />
 
-          <Redirect to={"/login"} />
+          <Redirect to={"/user/login"} />
         </Switch>
         : <Switch>
-          <Route exact path={"/signup"} component={ Signup } />
-          <Route exact path={"/login"} component={ Login } />
-          <Redirect to={"/signup"} />
+          <Route exact path={"/user/signup"} component={ Signup } />
+          <Route exact path={"/user/login"} component={ Login } />
+
+          <Redirect to={"/user/signup"} />
         </Switch>
       }
     </>
