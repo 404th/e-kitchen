@@ -1,5 +1,5 @@
 const Product = require("../../schema/foodsSchema")
-const mongodb = require('mongodb');
+var mongodb = require('mongodb');
 
 // deleteProduct
 const deleteProduct = async (req, res) => {
