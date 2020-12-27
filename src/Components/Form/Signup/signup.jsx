@@ -40,7 +40,9 @@ function Signup(props){
           method:"POST",
           data:{...signupUser},
         }).then( data => {
+          console.log( data )
           props.history.push("/user/login")
+          // setting loading OFF
           setIsSavedUser( true )
           setSignupUser({
             signupUsername:"",
@@ -51,7 +53,6 @@ function Signup(props){
           })
         } )
           .catch( err => console.log( err ) )
-        // setting loading OFF
       } catch (err) {
         if( err ) {
           setIsSavedUser( false )
