@@ -129,7 +129,8 @@ function Header(){
         <AppBar position="static">
           <Toolbar>
             <Link to={"/"}>
-              <img className={classes.brand} src={"./photos/header/food.png"} alt="Food" width={"40px"}/>
+              {/* src maybe like this: window.location.origin + `/photos/header/food.png` */}
+              <img className={classes.brand} src={`/photos/header/food.png`} alt="Food" width={"40px"}/>
             </Link>
             {
               window.location.pathname === "/" ? (<div className={classes.search}>

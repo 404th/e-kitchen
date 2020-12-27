@@ -17,7 +17,7 @@ var UserSchema = mongoose.Schema({
 }, { timestamps:true } )
 
 UserSchema.pre( "save", async function( next ){
-  let salt = await bcrypt.genSalt( 17 )
+  let salt = await bcrypt.genSalt()
   this.password = await bcrypt.hash( this.password, salt )
   next()
 } )

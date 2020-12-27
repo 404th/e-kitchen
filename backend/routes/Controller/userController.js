@@ -18,21 +18,20 @@ const postUser = validationResults => async (req, res) => {
       signupPhone,
       signupPassword,
     } = req.body
-
+    // Save new user
     let newUser = await User.create({
       username: signupUsername,
       email: signupEmail,
       phone: signupPhone,
       password: signupPassword
     })
+    // get token and save it in cookie
     let token = getToken( newUser._id )
     res.cookie( "jwt", token, { maxAge: 86400000*3, httpOnly: true } )
-    res.user = newUser
     return res.status(201).json({
       message:"User saved!",
       data: newUser._id
     })
-    
   } catch (err) {
     if (err) {
       return res.json({

@@ -36,19 +36,12 @@ function Signup(props){
         // setting loading ON
         setIsSavedUser( false )
         // catching SAVED USER
-        let savedUser = await axios( `${ SERVER_URL }/user/signup`, {
+        await axios( `${ SERVER_URL }/user/signup`, {
           method:"POST",
           data:{...signupUser},
-        }, err => {
-          if( err ) {
-            console.log( "ERROR IN AXIOS" )
-            console.log(err)
-          }
-        } )
-        // setting loading OFF
-        if( savedUser ){
+        }).then( data => {
           props.history.push("/user/login")
-          await setIsSavedUser( true )
+          setIsSavedUser( true )
           setSignupUser({
             signupUsername:"",
             signupEmail:"",
@@ -56,8 +49,9 @@ function Signup(props){
             signupPassword:"",
             signupPasswordAgain:"",
           })
-          console.log( savedUser.user )
-        }
+        } )
+          .catch( err => console.log( err ) )
+        // setting loading OFF
       } catch (err) {
         if( err ) {
           setIsSavedUser( false )
