@@ -83,7 +83,7 @@ function Login(){
             </Grid>
             <Grid className={ classes.cover__signup__container_links }>
               <Typography className={ classes.cover__signup__container_links_typography }>Have not you registered yet?</Typography>
-              <Link className={ classes.cover__signup__container_links_link } to={"/signup"}>SIGN UP</Link>
+              <Link className={ classes.cover__signup__container_links_link } to={"/user/signup"}>SIGN UP</Link>
             </Grid>
           </form>
         </Grid>

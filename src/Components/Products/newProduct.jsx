@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import { useState } from 'react';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
@@ -8,15 +8,12 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import Select from '@material-ui/core/Select';
 
 import { useStyles } from './style/productsStyle'
-import { MyState } from '../../GlobalState'
 
-import axios from 'axios'
-
-import { SERVER_URL } from '../../store'
+// import axios from 'axios'
+// import { SERVER_URL } from '../../store'
 
 function NewProduct() {
   const classes = useStyles()
-  const { setExistProducts } = useContext( MyState )
 
   const [open, setOpen] = useState(false);
   const [newProduct, setNewProduct] = useState({
@@ -33,7 +30,6 @@ function NewProduct() {
       productAbout:'',
       productCategory:''
     })
-    setErrorHelps({})
   };
   const handleClose = () => {
     setOpen(false);
@@ -43,11 +39,7 @@ function NewProduct() {
       productAbout:'',
       productCategory:''
     })
-    setErrorHelps({})
   };
-
-  // handle errors
-  let [ errorHelps, setErrorHelps ] = useState({})
 
   // handling new Product information
   const handleSetNewProductValue = e => {
@@ -59,30 +51,9 @@ function NewProduct() {
   }
   // SEND NEW Product
   const handleSendNewProduct = async () => {
-    try {
-      await axios.post( `${ SERVER_URL }/products`, { ...newProduct } )
-        .then( async res => {
-          // REFRESH PRODUCTS
-          await axios.get( `${ SERVER_URL }/products` )
-            .then( resp => setExistProducts( resp.data.data ) )
-            .catch( err => err )
-          handleClose()
-        } )
-        .catch( err => {
-          if( err.response.data.errors.length > 0 ){
-            let errors = {}
-            err.response.data.errors.map( async (i) => {
-              errors[ i.param ] = i.msg
-            } )
-            setErrorHelps( errors )
-            setTimeout( () => {
-              setErrorHelps({})
-            }, 5000 )
-          }
-        } )
-    } catch (err){
-      if (err) return err
-    }
+    console.log( "New product added!" )
+    console.log( newProduct )
+    handleClose()
   }
 
   return (
@@ -95,7 +66,6 @@ function NewProduct() {
         <DialogContent>
           <TextField
             className={ classes.handleSetNewProductValue }
-            error={ errorHelps.productName ? true : false }
             autoFocus
             onChange={ e => { handleSetNewProductValue(e) } }
             value={ newProduct.productName }
@@ -103,13 +73,12 @@ function NewProduct() {
             margin="dense"
             id="productName"
             name="productName"
-            label={ errorHelps.productName ? errorHelps.productName : "Product Name" }
+            label={ "Product Name" }
             type="text"
             fullWidth
           />
           <TextField
             className={ classes.handleSetNewProductValue }
-            error={ errorHelps.productPrice ? true : false }
             autoFocus
             onChange={ e => { handleSetNewProductValue(e) } }
             value={ newProduct.productPrice }
@@ -117,7 +86,7 @@ function NewProduct() {
             margin="dense"
             id="productPrice"
             name="productPrice"
-            label={ errorHelps.productPrice ? errorHelps.productPrice : "Price ( $ )" }
+            label={ "Price ( $ )" }
             type="number"
             fullWidth
           />
@@ -138,7 +107,6 @@ function NewProduct() {
           />
           <Select
             className={ classes.handleSetNewProductValue }
-            error={ errorHelps.productCategory ? true : false }
             fullWidth
             native
             placeholder={"Category"}

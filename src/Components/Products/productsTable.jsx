@@ -1,4 +1,3 @@
-import { useContext, useEffect } from 'react'
 import { withStyles } from '@material-ui/core/styles'
 import Table from '@material-ui/core/Table'
 import TableBody from '@material-ui/core/TableBody'
@@ -10,18 +9,23 @@ import TableRow from '@material-ui/core/TableRow'
 import Paper from '@material-ui/core/Paper'
 
 import { useStyles } from './style/productsStyle'
-import { MyState } from '../../GlobalState'
 
-// import { Link } from 'react-router-dom'
-import axios from 'axios'
-import { SERVER_URL } from '../../store'
+// import axios from 'axios'
+// import { SERVER_URL } from '../../store'
 
 import EditProduct from './editProduct'
 import DeleteProduct from './deleteProduct'
 
+// axiosdan kelgan ma'lumotlar
+let existProducts = [
+  { productName:"Prod 1", productAbout:"About Prod 1", productPrice:199 },
+  { productName:"Prod 2", productAbout:"About Prod 2", productPrice:299 },
+  { productName:"Prod 3", productAbout:"About Prod 3", productPrice:399 },
+  { productName:"Prod 4", productAbout:"About Prod 4", productPrice:499 },
+]
+
 function ProductsTable(){
   const classes = useStyles()
-  const { setExistProducts, existProducts, searchedExistProducts } = useContext( MyState )
 
   const StyledTableCell = withStyles((theme) => ({
     head: {
@@ -36,11 +40,6 @@ function ProductsTable(){
   function createData(num, name, price, about) {
     return { num, name, price, about }
   }
-  useEffect( () => {
-    axios.get( `${ SERVER_URL }/products` )
-      .then( res => setExistProducts( res.data.data ) )
-      .catch( err => console.log( err ) )
-  },[])
 
   const StyledTableRow = withStyles((theme) => ({
     root: {
@@ -64,25 +63,8 @@ function ProductsTable(){
           </TableRow>
         </TableHead>
         <TableBody>
-          { searchedExistProducts.length > 0 ? searchedExistProducts.reverse().map((pro, ind) => {
-            let row = createData( [ind+1], pro.productName, pro.productPrice, pro.productAbout )
-            return (
-              <StyledTableRow key={row.name}>
-                <StyledTableCell align="center">{row.num}</StyledTableCell>
-                <StyledTableCell className={ classes.avatarItemInCard } component="th" scope="row">
-                  <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
-                </StyledTableCell>
-                <StyledTableCell align="center" id={ pro.productName } >{row.name}</StyledTableCell>
-                <StyledTableCell align="center">{row.price}</StyledTableCell>
-                <StyledTableCell className={ classes.editLinkProductCover } align="center">
-                  <EditProduct id={ pro._id } />
-                </StyledTableCell>
-                <StyledTableCell className={ classes.editLinkProductCover } align="center">
-                  <DeleteProduct id={ pro._id } />
-                </StyledTableCell>
-              </StyledTableRow>
-            )
-          }) : existProducts.reverse().map((pro, ind) => {
+          { 
+            existProducts.reverse().map((pro, ind) => {
             let row = createData( [ind+1], pro.productName, pro.productPrice, pro.productAbout )
             return (
               <StyledTableRow key={row.name}>

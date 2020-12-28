@@ -7,10 +7,10 @@ import { useStyles } from '../style/formStyle'
 
 import { Link } from 'react-router-dom'
 
-import axios from 'axios'
-import { SERVER_URL } from '../../../store'
+// import axios from 'axios'
+// import { SERVER_URL } from '../../../store'
 
-function Signup(props){
+function Signup(){
   const classes = useStyles()
   const [ signupUser, setSignupUser ] = useState({
     signupUsername:"",
@@ -27,43 +27,9 @@ function Signup(props){
         [name]:value
       })
     }
-    // LOADING FOR NEW USER
-    let [ isSavedUser, setIsSavedUser ] = useState( true )
     // SIGN UP NEW USER
-    const handleSignupUserAxios = async () => {
-
-      try {
-        // setting loading ON
-        setIsSavedUser( false )
-        // catching SAVED USER
-        await axios( `${ SERVER_URL }/user/signup`, {
-          method:"POST",
-          data:{...signupUser},
-        }).then( data => {
-          props.history.push("/user/login")
-          setIsSavedUser( true )
-          setSignupUser({
-            signupUsername:"",
-            signupEmail:"",
-            signupPhone:"",
-            signupPassword:"",
-            signupPasswordAgain:"",
-          })
-        } )
-          .catch( err => console.log( err ) )
-        // setting loading OFF
-      } catch (err) {
-        if( err ) {
-          setIsSavedUser( false )
-          setSignupUser({
-            signupUsername:"",
-            signupEmail:"",
-            signupPhone:"",
-            signupPassword:"",
-            signupPasswordAgain:"",
-          })
-        }
-      }
+    const handleSignupUserAxios = () => {
+      console.log( signupUser )
     }
 
   return (
@@ -83,7 +49,6 @@ function Signup(props){
           >
             <TextField
               className={ classes.cover__signup__container_form_ }
-              disabled={ !isSavedUser }
               id="signupUsername"
               type={"text"}
               label="Username"
@@ -94,7 +59,6 @@ function Signup(props){
             />
             <TextField
               className={ classes.cover__signup__container_form_ }
-              disabled={ !isSavedUser }
               id="signupEmail"
               type={"email"}
               label="Email"
@@ -105,7 +69,6 @@ function Signup(props){
             />
             <TextField
               className={ classes.cover__signup__container_form_ }
-              disabled={ !isSavedUser }
               id="signupPhone"
               type={"number"}
               label="Phone number"
@@ -116,7 +79,6 @@ function Signup(props){
             />
             <TextField
               className={ classes.cover__signup__container_form_ }
-              disabled={ !isSavedUser }
               id="signupPassword"
               type={ "password" }
               label="Password"
@@ -127,7 +89,6 @@ function Signup(props){
             />
             <TextField
               className={ classes.cover__signup__container_form_ }
-              disabled={ !isSavedUser }
               id="signupPasswordAgain"
               type={ "password" }
               label="Password again"
@@ -139,7 +100,6 @@ function Signup(props){
             <Grid className={ classes.cover__signup__container_button }>
               <Button
                 className={ classes.cover__signup__container_button_clear }
-                disabled={ !isSavedUser }
                 variant="contained"
                 color="primary"
                 onClick={ () => {
@@ -156,7 +116,6 @@ function Signup(props){
               </Button>
               <Button
                 className={ classes.cover__signup__container_button_signup }
-                disabled={ !isSavedUser }
                 variant="contained"
                 color="primary"
                 onClick={ handleSignupUserAxios }
@@ -168,7 +127,6 @@ function Signup(props){
               <Typography className={ classes.cover__signup__container_links_typography }>Have you registered?</Typography>
               <Link
                 className={ classes.cover__signup__container_links_link }
-                disabled={ !isSavedUser }
                 to={"/user/login"}
               >LOGIN</Link>
             </Grid>
