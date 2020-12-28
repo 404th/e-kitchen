@@ -1,26 +1,23 @@
-import React, { useContext } from 'react'
+import React from 'react'
 //COMPONENTS
 import Good from './good'
 // LOADING
 // import Loading from '../Loading/loading'
-// GLOBAL STATE
-import { MyState } from '../../GlobalState'
 
 function Goods() {
-  const { existProducts, searchedForClientHeader } = useContext( MyState )
+
+  // axiosdan kelgan ma'lumotlar
+  let existProducts = [
+    { productName:"Prod 1", productAbout:"About Prod 1", productPrice:199 },
+    { productName:"Prod 2", productAbout:"About Prod 2", productPrice:299 },
+    { productName:"Prod 3", productAbout:"About Prod 3", productPrice:399 },
+    { productName:"Prod 4", productAbout:"About Prod 4", productPrice:499 },
+  ]
 
   return (
     <>
       {
-        searchedForClientHeader.length > 0 ?
-        searchedForClientHeader.reverse().map( (good, index) => {
-          return (
-              <Good
-                key={ index }
-                info={ good }
-              />
-          )
-        } ) : existProducts.reverse().map( (good, index) => {
+        existProducts.reverse().map( (good, index) => {
           return (
               <Good
                 key={ index }

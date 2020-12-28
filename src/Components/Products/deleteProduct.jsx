@@ -1,12 +1,8 @@
-import { useContext } from 'react'
 import IconButton from '@material-ui/core/IconButton'
 import DeleteIcon from '@material-ui/icons/Delete'
 import { makeStyles } from '@material-ui/core/styles'
-
-import { SERVER_URL } from '../../store'
-import { MyState } from '../../GlobalState'
-
-import axios from 'axios'
+// import { SERVER_URL } from '../../store'
+// import axios from 'axios'
 
 const useStyles = makeStyles((theme) => ({
   margin: {
@@ -17,26 +13,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function DeleteProduct( props ){
+function DeleteProduct(){
   const classes = useStyles();
-
-  const { setExistProducts } = useContext( MyState )
-
+  
   const handleDeleteProduct = async () => {
-    
-    try {
-      axios.post( `${ SERVER_URL }/delete-product/${ props.id }`, {} )
-        .then( async res => {
-          axios.get( `${ SERVER_URL }/products` )
-            .then( resp => {
-              setExistProducts( resp.data.data )
-            } )
-            .catch( err => console.log( err ) )
-        } )
-        .catch( err => console.log( err ) )
-    } catch (err) {
-      if( err ) throw err
-    }
+    console.log( "Item deleted!" )
   }
 
   return (

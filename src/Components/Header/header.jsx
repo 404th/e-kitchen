@@ -1,6 +1,5 @@
 import React from 'react'
 //MATERIAL-UI
-import { MyState } from '../../GlobalState'
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
@@ -18,7 +17,6 @@ import { Link } from 'react-router-dom'
 import { useStyles } from './style/headerStyle'
 
 function Header(){
-  const { existProducts, setSearchedForClientHeader } = React.useContext( MyState )
   const classes = useStyles()
 
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -31,8 +29,7 @@ function Header(){
     setAnchorEl(event.currentTarget);
   };
 
-  const handleMobileMenuClose = () => {
-  };
+  const handleMobileMenuClose = () => {};
   
   const handleMenuClose = () => {
     setMobileMoreAnchorEl(null)
@@ -44,18 +41,6 @@ function Header(){
   const handleMobileMenuOpen = (event) => {
     setMobileMoreAnchorEl(event.currentTarget);
   };
-
-  // Handle Search Product
-  const handleSearchProduct = e => {
-    let { value } = e.target
-
-    if( value !== "" ){
-      let searchedProds = existProducts.filter( item => item.productName.indexOf( value ) > -1  )
-      setSearchedForClientHeader( searchedProds )
-    } else {
-      setSearchedForClientHeader([])
-    }
-  }
 
   const menuId = 'primary-search-account-menu';
   const renderMenu = (
@@ -123,6 +108,10 @@ function Header(){
     </Menu>
   );
   
+  // LIVE SEARCH PRODUCT
+  const handleSearchProduct = e => {
+    console.log( e.target.value )
+  }
   return (
     <div className={classes.root}>
       <div className={classes.grow}>

@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import { useState } from 'react'
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
@@ -6,27 +6,14 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Select from '@material-ui/core/Select';
-import axios from 'axios'
-import { SERVER_URL } from '../../store'
-import { MyState } from '../../GlobalState'
+// import axios from 'axios'
+// import { SERVER_URL } from '../../store'
 
-function EditProduct( props ) {
+function EditProduct() {
   const [open, setOpen] = useState(false);
-  const [shouldBeInputted, setShouldBeInputted] = useState({});
-
-  const [editedValue, setEditedValue] = useState({
-    newProductName:"",
-    newProductPrice:"",
-    newProductAbout:"",
-    newProductCategory:"",
-  });
 
   const handleSetEditValue = (e) => {
-    const { name, value } = e.target
-    setEditedValue({
-      ...editedValue,
-      [name]:value
-    })
+    console.log( e.target )
   }
 
   // OPEN DIALOG
@@ -36,60 +23,10 @@ function EditProduct( props ) {
   // CLOSE DIALOG
   const handleClose = () => {
     setOpen(false);
-    setEditedValue({
-      newProductName:"",
-      newProductPrice:"",
-      newProductAbout:"",
-      newProductCategory:"",
-    })
-    setShouldBeInputted({})
   };
 
-  // GLOBAL STATE
-  const { existProducts, setExistProducts } = useContext( MyState )
-  // HANDLE SET DEFAULT VALUES
-  const handleSetDefaultValues = async () => {
-
-    let chosenProduct = await existProducts.find( item => item._id === props.id )
-    if( chosenProduct ){
-      setShouldBeInputted( chosenProduct )
-      setEditedValue({
-        newProductName: chosenProduct.productName,
-        newProductPrice: chosenProduct.productPrice,
-        newProductAbout: chosenProduct.productAbout,
-        newProductCategory: chosenProduct.productCategory,
-      })
-      handleClickOpen()
-    }
-  }
-
-  // SET ERRORS
-  let [ errorHelps, setErrorHelps ] = useState({})
-
   const handleAcceptEditInfo = async () => {
-    try {
-      axios.patch( `${ SERVER_URL }/edit-product/${ props.id }`, { ...editedValue } )
-        .then( async res => {
-          axios.get( `${ SERVER_URL }/products` )
-            .then( resp => setExistProducts( resp.data.data ) )
-            .catch( err => console.log( err ) )
-            handleClose()
-          })
-        .catch( err => {
-          if( err.response.data.errors.length > 0 ){
-            let errors = {}
-            err.response.data.errors.map( async (i) => {
-              errors[ i.param ] = i.msg
-            } )
-            setErrorHelps( errors )
-            setTimeout( () => {
-              setErrorHelps({})
-            }, 5000 )
-          }
-        } )
-    } catch (err) {
-      if (err) console.log( err )
-    }
+    handleClose()
   }
 
   return (
@@ -97,7 +34,7 @@ function EditProduct( props ) {
       <Button
         variant="outlined"
         color="primary"
-        onClick={ () => handleSetDefaultValues() }
+        onClick={ () => { handleClickOpen() } }
       >
         Edit
       </Button>
@@ -111,12 +48,9 @@ function EditProduct( props ) {
             autoComplete={"off"}
             id="newProductName"
             name="newProductName"
-            error={ errorHelps.newProductName ? true : false }
-            label={ errorHelps.newProductName ? errorHelps.newProductName : "New product name"}
+            label={ "New product name" }
             type="text"
             fullWidth
-            defaultValue={ shouldBeInputted && shouldBeInputted.productName }
-            value={ editedValue.editedProductName }
           />
           <TextField
             autoFocus
@@ -125,12 +59,9 @@ function EditProduct( props ) {
             autoComplete={"off"}
             id="newProductPrice"
             name="newProductPrice"
-            error={ errorHelps.newProductPrice ? true : false }
-            label={ errorHelps.newProductPrice ? errorHelps.newProductPrice : "New Price ( $ )"}
+            label={ "New Price ( $ )" }
             type="number"
             fullWidth
-            defaultValue={ shouldBeInputted && shouldBeInputted.productPrice }
-            value={ editedValue.editedProductPrice }
           />
           <TextField
             autoFocus
@@ -144,15 +75,11 @@ function EditProduct( props ) {
             label={"About Product"}
             type="About Product"
             fullWidth
-            defaultValue={ shouldBeInputted && shouldBeInputted.productAbout }
-            value={ editedValue.editedProductAbout }
           />
           <Select
             fullWidth
             native
             placeholder={"Category"}
-            error={ errorHelps.newProductCategory ? true : false }
-            value={editedValue.newProductCategory}
             onChange={e => handleSetEditValue(e)}
             inputProps={{
               name: 'newProductCategory',
