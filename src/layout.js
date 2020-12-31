@@ -1,4 +1,4 @@
-
+import { useState } from 'react'
 //react-router-dom
 import { Route, Switch, Redirect } from 'react-router-dom'
 //COMPONENTS
@@ -10,20 +10,28 @@ import Products from './Components/Products/products'
 import Signup from './Components/Form/Signup/signup'
 import Login from './Components/Form/Login/login'
 
-function Layout(){  
+function Layout(){
+
+  let [ isAuth, setIsAuth ] = useState( false )
+
   return (
     <>
-      <Switch>
+      {
+        isAuth ? <Switch>
         <Route exact path={"/"} component={ Home } />
         <Route exact path={"/shopping-card"} component={ ShoppingCard } />
         <Route exact path={"/order-success"} component={ OrderSuccess } />
         <Route exact path={"/orders"} component={ Orders } />
         <Route exact path={"/products"} component={ Products } />
-        <Route exact path={"/user/signup"} component={ Signup } />
+
+        <Redirect to={"/user/login"} />
+      </Switch> : <Switch>
+        <Route exact path={"/user/singup"} component={ Signup } />
         <Route exact path={"/user/login"} component={ Login } />
 
         <Redirect to={"/user/login"} />
       </Switch>
+      }
     </>
   )
 }
