@@ -31,7 +31,8 @@ app.use( express.json() )
 //
 const authRoute = require("./routes/authRoute")
 app.use( '/user', authRoute )
-
+const prodRoute = require("./routes/prodRoute")
+app.use( '/product', prodRoute )
 
 // CONNECTING SERVER PORT
 app.listen( PORT, () => console.log( `SERVER is running on PORT - ${ PORT }` ) )
