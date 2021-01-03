@@ -5,7 +5,7 @@ const cors = require("cors")
 // Setting .env Config
 const dotenv = require("dotenv")
 dotenv.config({ path:`${ __dirname }/.env` })
-// CONSTS from .env
+// consts from .env
 const { PORT, MONGODB_URL } = process.env
 mongoose.Promise = global.Promise
 // SET to MongoDB
@@ -28,7 +28,7 @@ const app = express()
 app.use( cors() )
 app.use( cookieParser() )
 app.use( express.json() )
-//
+// routers
 const authRoute = require("./routes/authRoute")
 app.use( '/user', authRoute )
 const prodRoute = require("./routes/prodRoute")
