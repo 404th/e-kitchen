@@ -21,7 +21,6 @@ mongoose.connect( MONGODB_URL, {
     console.log("Successfully connected to MongoDB!")
   }
 } )
-
 //
 const app = express()
 // middlewares
