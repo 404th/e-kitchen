@@ -27,7 +27,7 @@ function Good(props){
     // console.log( state )
     // setState({ ...state, [e.target.name]: e.target.checked });
   };
-
+  
   return (
     <Card className={classes.root}>
       <CardHeader

@@ -26,7 +26,7 @@ router.post( "/signup",[
 
 // POST - /user/login
 router.post( "/login", [
-  check("username", "Should be more than 3").isLength({min:3}),
+  check("email", "Enter valid email!").isEmail(),
   check("password", "Should be more than 4").isLength({ min:4 })
 ], auth_login_post( validationResult ) )
 

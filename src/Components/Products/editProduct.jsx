@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useContext } from 'react'
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
@@ -6,16 +6,85 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Select from '@material-ui/core/Select';
-// import axios from 'axios'
-// import { SERVER_URL } from '../../store'
+import axios from 'axios'
+import { SERVER_URL } from '../../store'
+import { MyState } from '../../GlobalState'
 
-function EditProduct() {
-  const [open, setOpen] = useState(false);
-
+function EditProduct(props) {
+  const { setUserProducts } = useContext( MyState )
+  const [ open, setOpen ] = useState(false);
+  const [ editedProduct, setEditedProduct ] = useState({
+    productName:"",
+    productPrice:"",
+    productAbout:"",
+    productCategory:""
+  })
+  // setting editid values
   const handleSetEditValue = (e) => {
-    console.log( e.target )
+    const { value, name } = e.target
+    setEditedProduct({
+      ...editedProduct,
+      [name]: value
+    })
   }
-
+  // errors
+  const [ errors, setErrors ] = useState({
+    productName:"",
+    productPrice:"",
+    productAbout:"",
+    productCategory:""
+  })
+  // loading
+  const [ loading, setLoading ] = useState( false )
+  const handleAcceptEditInfo = async () => {
+    try {
+      // switch Loading on
+      setLoading( true )
+      let comeData = await axios({
+        method:"PATCH",
+        url:`${ SERVER_URL }/product/edit/${ props.id }`,
+        data: editedProduct
+      })
+      if ( comeData ){
+        // refresh
+        setUserProducts()
+        // switch Loading off
+        setLoading( false )
+        // clear inputs
+        setEditedProduct({
+          productName:"",
+          productPrice:"",
+          productAbout:"",
+          productCategory:""
+        })
+        // close popup
+        handleClose()
+      } else {
+        console.log("Req sent but data didn't come!")
+      }
+    } catch (err) {
+      if ( err && err.response.data.data ){
+        let { errors } = err.response.data.data
+        let objectErrors = {}
+        for( let i = 0; i < errors.length; i++ ){
+          objectErrors[ errors[i].param ] = errors[i].msg
+        }
+        // set errors
+        setErrors( objectErrors )
+        // clear errors after 4s
+        setTimeout( () => {
+          setErrors({
+            productName:"",
+            productPrice:"",
+            productAbout:"",
+            productCategory:""
+          })
+        }, 4000 )
+      } else {
+        console.log("No errors found!")
+      }
+    }
+  }
   // OPEN DIALOG
   const handleClickOpen = () => {
     setOpen(true);
@@ -24,10 +93,6 @@ function EditProduct() {
   const handleClose = () => {
     setOpen(false);
   };
-
-  const handleAcceptEditInfo = async () => {
-    handleClose()
-  }
 
   return (
     <div>
@@ -46,22 +111,28 @@ function EditProduct() {
             margin="dense"
             onChange={ e => { handleSetEditValue(e) } }
             autoComplete={"off"}
-            id="newProductName"
-            name="newProductName"
+            id="productName"
+            name="productName"
             label={ "New product name" }
             type="text"
             fullWidth
+            disabled={ loading }
+            error={ errors.productName !== "" }
+            helperText={ errors.productName !== "" || errors.productName === undefined }
           />
           <TextField
             autoFocus
             margin="dense"
             onChange={ e => { handleSetEditValue(e) } }
             autoComplete={"off"}
-            id="newProductPrice"
-            name="newProductPrice"
+            id="productPrice"
+            name="productPrice"
             label={ "New Price ( $ )" }
             type="number"
             fullWidth
+            disabled={ loading }
+            error={ errors.productPrice !== "" }
+            helperText={ errors.productPrice !== "" || errors.productPrice === undefined }
           />
           <TextField
             autoFocus
@@ -70,11 +141,14 @@ function EditProduct() {
             autoComplete={"off"}
             multiline
             rowsMax={ 6 }
-            id="newProductAbout"
-            name="newProductAbout"
+            id="productAbout"
+            name="productAbout"
             label={"About Product"}
+            disabled={ loading }
             type="About Product"
             fullWidth
+            error={ errors.productAbout !== "" }
+            helperText={ errors.productAbout !== "" || errors.productAbout === undefined }
           />
           <Select
             fullWidth
@@ -82,8 +156,8 @@ function EditProduct() {
             placeholder={"Category"}
             onChange={e => handleSetEditValue(e)}
             inputProps={{
-              name: 'newProductCategory',
-              id: 'newProductCategory',
+              name: 'productCategory',
+              id: 'productCategory',
             }}
           >
             <option>Select the category</option>

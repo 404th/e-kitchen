@@ -1,30 +1,23 @@
-import React from 'react'
+import { useContext } from 'react'
+import { MyState } from '../../GlobalState'
 //COMPONENTS
 import Good from './good'
-// LOADING
-// import Loading from '../Loading/loading'
 
 function Goods() {
-
-  // axiosdan kelgan ma'lumotlar
-  let existProducts = [
-    { productName:"Prod 1", productAbout:"About Prod 1", productPrice:199 },
-    { productName:"Prod 2", productAbout:"About Prod 2", productPrice:299 },
-    { productName:"Prod 3", productAbout:"About Prod 3", productPrice:399 },
-    { productName:"Prod 4", productAbout:"About Prod 4", productPrice:499 },
-  ]
+  // GLOBAL STATE
+  const { userProducts } = useContext( MyState )
 
   return (
     <>
       {
-        existProducts.reverse().map( (good, index) => {
+        userProducts.length > 0 ? userProducts.reverse().map( (good, index) => {
           return (
-              <Good
-                key={ index }
-                info={ good }
-              />
+            <Good
+              key={ index }
+              info={ good }
+            />
           )
-        } )
+        } ) : <h2>Loading!</h2>
       }
     </>
   );
