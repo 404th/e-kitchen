@@ -1,4 +1,4 @@
-import { useContext, useEffect } from 'react'
+import { useContext } from 'react'
 import { withStyles } from '@material-ui/core/styles'
 import Table from '@material-ui/core/Table'
 import TableBody from '@material-ui/core/TableBody'
@@ -8,7 +8,7 @@ import TableContainer from '@material-ui/core/TableContainer'
 import TableHead from '@material-ui/core/TableHead'
 import TableRow from '@material-ui/core/TableRow'
 import Paper from '@material-ui/core/Paper'
-
+import Skeleton from '@material-ui/lab/Skeleton';
 import { useStyles } from './style/productsStyle'
 import { MyState } from '../../GlobalState'
 // import axios from 'axios'
@@ -20,7 +20,7 @@ import DeleteProduct from './deleteProduct'
 
 function ProductsTable(){
   // GLOBAL STATE
-  const { userProducts, setUserProducts } = useContext( MyState )
+  const { userProducts } = useContext( MyState )
   const classes = useStyles()
   //  refresh products table
   // useEffect( () => {
@@ -82,7 +82,24 @@ function ProductsTable(){
                 </StyledTableCell>
               </StyledTableRow>
             )
-          }) : <h2>Loading!</h2>
+          }) : <StyledTableRow>
+          <StyledTableCell align="center"></StyledTableCell>
+          <StyledTableCell className={ classes.avatarItemInCard } component="th" scope="row">
+            <Skeleton variant={"text"} width={"100%"} height={"100%"} />
+          </StyledTableCell>
+          <StyledTableCell align="center">
+            <Skeleton variant={"text"} width={"100%"} height={"100%"} />
+          </StyledTableCell>
+          <StyledTableCell align="center">
+            <Skeleton variant={"text"} width={"100%"} height={"100%"} />
+          </StyledTableCell>
+          <StyledTableCell className={ classes.editLinkProductCover } align="center">
+            <Skeleton variant={"text"} width={"100%"} height={"100%"} />
+          </StyledTableCell>
+          <StyledTableCell className={ classes.editLinkProductCover } align="center">
+            <Skeleton variant={"text"} width={"100%"} height={"100%"} />
+          </StyledTableCell>
+        </StyledTableRow>
         }
         </TableBody>
       </Table>

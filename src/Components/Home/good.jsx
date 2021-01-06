@@ -47,7 +47,7 @@ function Good(props){
       />
       <CardContent>
         <Typography noWrap variant="body2" color="textSecondary" component="p">
-          { props.info.productAbout }
+          { props.info.productAbout ? props.info.productAbout : "Not info about it" }
         </Typography>
       </CardContent>
       <CardActions disableSpacing>

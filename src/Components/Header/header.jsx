@@ -1,4 +1,4 @@
-import React from 'react'
+import { useContext, useState } from 'react'
 //MATERIAL-UI
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -13,14 +13,16 @@ import MoreIcon from '@material-ui/icons/MoreVert';
 import LocalPharmacyRoundedIcon from '@material-ui/icons/LocalPharmacyRounded';
 //react-router-dom
 import { Link } from 'react-router-dom'
-
+import { MyState } from '../../GlobalState'
 import { useStyles } from './style/headerStyle'
 
 function Header(){
+  // Global state
+  const { userIsLogged } = useContext( MyState )
   const classes = useStyles()
 
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
@@ -122,7 +124,7 @@ function Header(){
               <img className={classes.brand} src={`/photos/header/food.png`} alt="Food" width={"40px"}/>
             </Link>
             {
-              window.location.pathname === "/" ? (<div className={classes.search}>
+              userIsLogged ? (<div className={classes.search}>
                 <div className={classes.searchIcon}>
                   <SearchIcon />
                 </div>

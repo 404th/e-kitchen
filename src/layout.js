@@ -24,8 +24,6 @@ function Layout(){
         <Route exact path={"/order-success"} component={ OrderSuccess } />
         <Route exact path={"/orders"} component={ Orders } />
         <Route exact path={"/products"} component={ Products } />
-
-        <Redirect to={"/user/login"} />
       </Switch> : <Switch>
         <Route exact path={"/user/signup"} component={ Signup } />
         <Route exact path={"/user/login"} component={ Login } />
