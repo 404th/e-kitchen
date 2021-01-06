@@ -18,7 +18,7 @@ import { useStyles } from './style/headerStyle'
 
 function Header(){
   // Global state
-  const { userIsLogged } = useContext( MyState )
+  const { userIsLogged, setUserIsLogged } = useContext( MyState )
   const classes = useStyles()
 
   const [anchorEl, setAnchorEl] = useState(null);
@@ -70,7 +70,11 @@ function Header(){
       </MenuItem>
       {/* FOR EVERYBODY */}
       <MenuItem className={ classes.menuItemLinkCover } onClick={handleMenuClose}>
-        <Link className={ classes.menuItemLink } to={"/logout"}>Log out</Link>
+        <Link
+          className={ classes.menuItemLink }
+          to={"/logout"}
+          onClick={ () => setUserIsLogged(false) }
+        >Log out</Link>
       </MenuItem>
     </Menu>
   );
@@ -120,7 +124,6 @@ function Header(){
         <AppBar position="static">
           <Toolbar>
             <Link to={"/"}>
-              {/* src maybe like this: window.location.origin + `/photos/header/food.png` */}
               <img className={classes.brand} src={`/photos/header/food.png`} alt="Food" width={"40px"}/>
             </Link>
             {
@@ -172,8 +175,8 @@ function Header(){
             </div>
           </Toolbar>
         </AppBar>
-        {renderMobileMenu}
-        {renderMenu}
+        { renderMobileMenu }
+        { renderMenu }
       </div>
     </div>
   )
