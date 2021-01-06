@@ -74,8 +74,8 @@ function OrdersTable(){
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.length > 0 && rows.map((row) => (
-            <StyledTableRow key={row.name}>
+          {rows.length > 0 && rows.map((row, index) => (
+            <StyledTableRow key={index}>
               <StyledTableCell className={ classes.avatarItemInCard } component="th" scope="row">
                 <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
               </StyledTableCell>
