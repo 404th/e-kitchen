@@ -1,3 +1,4 @@
+import { useContext } from 'react'
 import { withStyles } from '@material-ui/core/styles'
 import Table from '@material-ui/core/Table'
 import TableBody from '@material-ui/core/TableBody'
@@ -7,25 +8,24 @@ import TableContainer from '@material-ui/core/TableContainer'
 import TableHead from '@material-ui/core/TableHead'
 import TableRow from '@material-ui/core/TableRow'
 import Paper from '@material-ui/core/Paper'
-
+import Skeleton from '@material-ui/lab/Skeleton';
 import { useStyles } from './style/productsStyle'
-
+import { MyState } from '../../GlobalState'
 // import axios from 'axios'
 // import { SERVER_URL } from '../../store'
 
 import EditProduct from './editProduct'
 import DeleteProduct from './deleteProduct'
 
-// axiosdan kelgan ma'lumotlar
-let existProducts = [
-  { productName:"Prod 1", productAbout:"About Prod 1", productPrice:199 },
-  { productName:"Prod 2", productAbout:"About Prod 2", productPrice:299 },
-  { productName:"Prod 3", productAbout:"About Prod 3", productPrice:399 },
-  { productName:"Prod 4", productAbout:"About Prod 4", productPrice:499 },
-]
 
 function ProductsTable(){
+  // GLOBAL STATE
+  const { userProducts } = useContext( MyState )
   const classes = useStyles()
+  //  refresh products table
+  // useEffect( () => {
+  //   setUserProducts()
+  // }, [] )
 
   const StyledTableCell = withStyles((theme) => ({
     head: {
@@ -64,7 +64,7 @@ function ProductsTable(){
         </TableHead>
         <TableBody>
           { 
-            existProducts.reverse().map((pro, ind) => {
+            userProducts.length > 0 ? userProducts.reverse().map((pro, ind) => {
             let row = createData( [ind+1], pro.productName, pro.productPrice, pro.productAbout )
             return (
               <StyledTableRow key={row.name}>
@@ -82,7 +82,25 @@ function ProductsTable(){
                 </StyledTableCell>
               </StyledTableRow>
             )
-          })}
+          }) : <StyledTableRow>
+          <StyledTableCell align="center"></StyledTableCell>
+          <StyledTableCell className={ classes.avatarItemInCard } component="th" scope="row">
+            <Skeleton variant={"text"} width={"100%"} height={"100%"} />
+          </StyledTableCell>
+          <StyledTableCell align="center">
+            <Skeleton variant={"text"} width={"100%"} height={"100%"} />
+          </StyledTableCell>
+          <StyledTableCell align="center">
+            <Skeleton variant={"text"} width={"100%"} height={"100%"} />
+          </StyledTableCell>
+          <StyledTableCell className={ classes.editLinkProductCover } align="center">
+            <Skeleton variant={"text"} width={"100%"} height={"100%"} />
+          </StyledTableCell>
+          <StyledTableCell className={ classes.editLinkProductCover } align="center">
+            <Skeleton variant={"text"} width={"100%"} height={"100%"} />
+          </StyledTableCell>
+        </StyledTableRow>
+        }
         </TableBody>
       </Table>
     </TableContainer>

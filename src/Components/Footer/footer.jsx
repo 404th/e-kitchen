@@ -2,7 +2,7 @@ import { useStyles } from './style/footerStyle'
 import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
 
-import { MY_HOME_LOCATION } from '../../store'
+// import { MY_HOME_LOCATION } from '../../store'
 
 import { Link } from 'react-router-dom'
 
@@ -22,14 +22,14 @@ function Footer(){
         </Grid>
       </Grid>
       <Grid className={ classes.footerItem2 } item xs={12} sm={12} md={6} lg={6}>
-        <iframe
+        {/* <iframe
           title={ MY_HOME_LOCATION }
           className={ classes.geolocationOurHome }
           src={ MY_HOME_LOCATION }
           width="500"
           height="450"
           aria-hidden="false"
-        ></iframe>
+        ></iframe> */}
       </Grid>
     </Grid>
   )

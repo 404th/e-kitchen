@@ -1,18 +1,21 @@
-import { useState } from 'react'
+import { useState, useContext } from 'react'
 import TextField from '@material-ui/core/TextField'
 import Typography from '@material-ui/core/Typography'
 import Grid from '@material-ui/core/Grid'
 import Button from '@material-ui/core/Button'
 import { useStyles } from '../style/formStyle'
-
+import axios from 'axios'
 import { Link } from 'react-router-dom'
+import { SERVER_URL } from '../../../store'
+import { MyState } from '../../../GlobalState'
 
-
-function Login(){
+function Login(props){
+  // GLOBAL STATE
+  const { setUserIsLogged } = useContext( MyState )
   const classes = useStyles()
   const [ loginUser, setLoginUser ] = useState({
-    loginEmail:"",
-    loginPassword:"",
+    email:"",
+    password:"",
   })
   // LOGIN
   const handleLoginUser = e => {
@@ -21,6 +24,63 @@ function Login(){
       ...loginUser,
       [name]:value
     })
+  }
+  // errors
+  const [ errors, setErrors ] = useState({
+    email:"",
+    password:""
+  })
+  // loading
+  const [ loading, setLoading ] = useState( false )
+  const handleLoginUserAxios = async () => {
+    try {
+      // clear errors
+      setErrors({
+        email:"",
+        password:""
+      })
+      // switch loading on
+      setLoading( true )
+      let loggedUser = await axios({
+        method:"POST",
+        url:`${SERVER_URL}/user/login`,
+        data: loginUser
+      })
+      if ( loggedUser ) {
+        // Give permission for user to login
+        setUserIsLogged( true )
+        // switch loading off
+        setLoading( false )
+        // clear inputs after logging in
+        setLoginUser({
+          email:"",
+          password:""
+        })
+        // redirect to <HOME />
+        props.history.push("/")
+      }
+    } catch (err) {
+      if ( err && err.response.data.data.errors ){
+        // switch loading off
+        setLoading( false )
+        let comeErrors = err.response.data.data.errors
+        let errorObj = {}
+        for( let i = 0; i < comeErrors.length; i++ ){
+          errorObj[ comeErrors[i].param ] = comeErrors[i].msg
+        }
+        //set errors
+        setErrors( errorObj )
+        // clear errors in 4s
+        setTimeout( () => {
+          setErrors({
+            email:"",
+            password:""
+          })
+        }, 4000 )
+      } else {
+        console.log("Error not found")
+      }
+    }
   }
 
   return (
@@ -41,22 +101,28 @@ function Login(){
             <TextField
               className={ classes.cover__signup__container_form_ }
               id="loginEmail"
-              name="loginEmail"
+              name="email"
               type={"email"}
               label="Email"
               variant="outlined"
-              value={ loginUser.loginEmail }
+              value={ loginUser.email }
               onChange={ e => { handleLoginUser(e) } }
+              error={ errors.email !== "" || errors.email === undefined }
+              helperText={ errors.email !== "" || errors.email !== undefined ? errors.email : false }
+              disabled={ loading }
             />
             <TextField
               className={ classes.cover__signup__container_form_ }
               id="loginPassword"
-              name="loginPassword"
+              name="password"
               type={"password"}
               label="Password"
               variant="outlined"
-              value={ loginUser.loginPassword }
+              value={ loginUser.password }
               onChange={ e => { handleLoginUser(e) } }
+              error={ errors.password !== "" || errors.password === undefined }
+              helperText={ errors.password !== "" || errors.password !== undefined ? errors.password : false }
+              disabled={ loading }
             />
             <Grid className={ classes.cover__signup__container_button }>
               <Button
@@ -65,10 +131,11 @@ function Login(){
                 color="primary"
                 onClick={ () => {
                   setLoginUser({
-                    loginEmail:"",
-                    loginPassword:"",
+                    email:"",
+                    password:"",
                   })
                 } }
+                disabled={ loading }
               >
                 Clear
               </Button>
@@ -76,7 +143,8 @@ function Login(){
                 className={ classes.cover__signup__container_button_signup }
                 variant="contained"
                 color="primary"
-                onClick={ () => { console.log( loginUser ) } }
+                onClick={ handleLoginUserAxios  }
+                disabled={ loading }
               >
                 Login
               </Button>

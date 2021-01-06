@@ -37,16 +37,14 @@ const prod_add_post = valResult => async (req, res) => {
   }
 
   try {
-    let { productName, productPrice, productCategory } = req.body
-    // let { productName, productPrice, productAbout, productImage } = req.body
+    let { productName, productPrice, productCategory, } = req.body
     // Checking product not exist in DB 
     let existProduct = await Product.findOne({ productName, productPrice, productCategory })
     if( existProduct ){
       return res.status( 409 ).json({
         message:"Product has already added!",
         data:{
-          productName:existProduct.productName,
-          id:existProduct._id
+          errors:[ { param:"productName", msg:"Product has already added!" } ]
         }
       })
     }
@@ -68,6 +66,7 @@ const prod_add_post = valResult => async (req, res) => {
       data:{
         errors:[
           {
+            param:"productName",
             msg:"This product not saved because of the Server Internal errors!",
           }
         ]
@@ -86,21 +85,29 @@ const prod_add_post = valResult => async (req, res) => {
 
 }
 
-// PATCH - /product/edit
+// PATCH - /product/edit/:id
 const prod_edit_patch = async (req, res) => {
-
   try {
     const { id } = req.params
     // Check if Product exist
     const existProduct = await Product.findById( new ObjectId( id ) )
     if( existProduct ){
       // Update the product
+      let updatedStuff = {}
+      for ( let key in req.body ) {
+        if ( req.body[ key ] !== "" ){
+          updatedStuff[key] = req.body[ key ]
+        } else {
+          continue
+        }
+      }
+      //
       const updatedProduct = await Product.updateOne(
         { _id: new ObjectId( id.toString() ) },
-        { $set:{ ...req.body } },
+        { $set:{ ...updatedStuff } },
         { upsert: true }
       )
-      // chech after updating
+      // check after updating
       if( updatedProduct ){
         return res.status( 200 ).json({
           message:"Product updated!",
@@ -129,7 +136,7 @@ const prod_edit_patch = async (req, res) => {
   }
 }
 
-// DELETE - /product/delete
+// DELETE - /product/delete/:id
 const prod_delete_delete = async (req, res) => {
   try {
     // catcing deleted product id

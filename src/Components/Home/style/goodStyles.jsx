@@ -60,4 +60,19 @@ export const useStyles = makeStyles((theme) => ({
   avatar: {
     backgroundColor: red[500],
   },
+  // for skeleton
+  goodSkeletonCover:{
+    width:"300px",
+    minHeight:"350px",
+    display:"flex",
+    flexDirection:'column',
+    padding:"5px",
+    margin:"20px",
+  },
+  goodSkeletonPresser:{
+    display:"flex",
+    flexWrap:"wrap",
+    justifyContent:"space-between",
+    margin:"10px",
+  }
 }));

@@ -1,28 +1,42 @@
-import React from 'react'
+import { useContext } from 'react'
+import { MyState } from '../../GlobalState'
+import Skeleton from '@material-ui/lab/Skeleton';
 //COMPONENTS
 import Good from './good'
-// LOADING
-// import Loading from '../Loading/loading'
+
+import { useStyles } from './style/goodStyles'
 
 function Goods() {
-
-  // axiosdan kelgan ma'lumotlar
-  let existProducts = [
-    { productName:"Prod 1", productAbout:"About Prod 1", productPrice:199 },
-    { productName:"Prod 2", productAbout:"About Prod 2", productPrice:299 },
-    { productName:"Prod 3", productAbout:"About Prod 3", productPrice:399 },
-    { productName:"Prod 4", productAbout:"About Prod 4", productPrice:499 },
-  ]
+  const classes = useStyles()
+  // GLOBAL STATE
+  const { userProducts } = useContext( MyState )
 
   return (
     <>
       {
-        existProducts.reverse().map( (good, index) => {
-          return (
+        userProducts.length > 0 ?
+          userProducts.reverse().map( (good, index) => {
+            return (
               <Good
                 key={ index }
                 info={ good }
               />
+            )
+        } ) : [ 1, 2, 3, 4, 5, 6, 7 ].map( good => {
+          return (
+            <div className={ classes.goodSkeletonCover } key={ good }>
+              <div className={ classes.goodSkeletonPresser }>
+                <Skeleton variant={"text"} width={"100%"} heigth={"35px"} />
+                <Skeleton variant={"text"} width={"80%"} heigth={"35px"} />
+              </div>
+              <div className={ classes.goodSkeletonPresser }>
+                <Skeleton variant={"rect"} width={"100%"} height={"250px"} />
+              </div>
+              <div className={ classes.goodSkeletonPresser }>
+                <Skeleton variant={"text"} width={"80%"} heigth={"35px"} />
+                <Skeleton variant={"text"} width={"100%"} heigth={"35px"} />
+              </div>
+            </div>
           )
         } )
       }

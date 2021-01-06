@@ -7,30 +7,102 @@ import { useStyles } from '../style/formStyle'
 
 import { Link } from 'react-router-dom'
 
-// import axios from 'axios'
-// import { SERVER_URL } from '../../../store'
+import axios from 'axios'
+import { SERVER_URL } from '../../../store'
 
-function Signup(){
+function Signup( props ){
   const classes = useStyles()
   const [ signupUser, setSignupUser ] = useState({
-    signupUsername:"",
-    signupEmail:"",
-    signupPhone:"",
-    signupPassword:"",
-    signupPasswordAgain:"",
+    username:"",
+    email:"",
+    password:"",
+    passwordAgain:""
   })
-    // SIGN UP
-    const handleSignupUser = e => {
-      const { value, name } = e.target
-      setSignupUser({
-        ...signupUser,
-        [name]:value
+  // ERRORS
+  const [ errors, setErrors ] = useState({
+    username:"",
+    email:"",
+    password:"",
+    passwordAgain:""
+  })
+  // LOADING
+  const [ loading, setLoading ] = useState( false )
+
+  // SIGN UP
+  const handleSignupUser = e => {
+    const { value, name } = e.target
+    setSignupUser({
+      ...signupUser,
+      [name]:value
+    })
+  }
+  // SIGN UP NEW USER
+  const handleSignupUserAxios = async () => {
+    if ( signupUser.password === signupUser.passwordAgain ){
+      try {
+        // switch Loading on
+        setLoading( true )
+        // sign up user 
+        const signedUser = await axios({
+          method:"POST",
+          url:`${SERVER_URL}/user/signup`,
+          data: signupUser
+        } )
+        if ( signedUser ){
+          // switch Loading off
+          setLoading( false )
+          // clear inputs
+          setSignupUser({
+            username:"",
+            email:"",
+            password:"",
+            passwordAgain:"",
+          })
+        }
+        // changing pathname
+        props.history.push("/user/login")
+        
+      } catch (err) {
+        console.log( err.response )
+        if (err && err.response.data.data ) {
+          // switch Loading off
+          setLoading( false )
+          //errors array
+          let comeErrors = err.response.data.data.errors
+          let errorObj = {}
+          // setErrors
+          for( let i = 0 ; i < comeErrors.length ; i++ ){
+            errorObj[ comeErrors[i].param ] = comeErrors[i].msg
+          }
+          setErrors( errorObj )
+        }
+        // clear errors
+        setTimeout( () => {
+          setErrors({
+            username:"",
+            email:"",
+            password:"",
+            passwordAgain:""
+          })
+        }, 4000 )
+      }
+    } else {
+      // sets error if confirmation passwords failed!
+      setErrors({
+        ...errors,
+        passwordAgain:"Confirm password failed!"
       })
+      // clear error in 4000 ms
+      setTimeout( () => {
+        setErrors({
+          username:"",
+          email:"",
+          password:"",
+          passwordAgain:"",
+        })
+      }, 4000 )
     }
-    // SIGN UP NEW USER
-    const handleSignupUserAxios = () => {
-      console.log( signupUser )
-    }
+  }
 
   return (
     <div className={ classes.cover__signup } >
@@ -49,53 +121,55 @@ function Signup(){
           >
             <TextField
               className={ classes.cover__signup__container_form_ }
-              id="signupUsername"
+              id="username"
               type={"text"}
               label="Username"
               variant="outlined"
-              name={"signupUsername"}
-              value={ signupUser.signupUsername }
+              name={"username"}
+              value={ signupUser.username }
               onChange={ e => handleSignupUser(e) }
+              error={ errors.username !== "" }
+              helperText={ errors.username !== "" || errors.username !== undefined ? errors.username : false }
+              disabled={ loading }
             />
             <TextField
               className={ classes.cover__signup__container_form_ }
-              id="signupEmail"
+              id="email"
               type={"email"}
               label="Email"
               variant="outlined"
-              name={"signupEmail"}
-              value={ signupUser.signupEmail }
+              name={"email"}
+              value={ signupUser.email }
               onChange={ e => handleSignupUser(e) }
+              error={ errors.email !== "" }
+              helperText={ errors.email !== "" || errors.email !== undefined ? errors.email : false }
+              disabled={ loading }
             />
             <TextField
               className={ classes.cover__signup__container_form_ }
-              id="signupPhone"
-              type={"number"}
-              label="Phone number"
-              variant="outlined"
-              name={"signupPhone"}
-              value={ signupUser.signupPhone }
-              onChange={ e => handleSignupUser(e) }
-            />
-            <TextField
-              className={ classes.cover__signup__container_form_ }
-              id="signupPassword"
+              id="password"
               type={ "password" }
               label="Password"
               variant="outlined"
-              name={"signupPassword"}
-              value={ signupUser.signupPassword }
+              name={"password"}
+              value={ signupUser.password }
               onChange={ e => handleSignupUser(e) }
+              error={ errors.password !== "" }
+              helperText={ errors.password !== "" || errors.password !== undefined ? errors.password : false }
+              disabled={ loading }
             />
             <TextField
               className={ classes.cover__signup__container_form_ }
-              id="signupPasswordAgain"
+              id="passwordAgain"
               type={ "password" }
               label="Password again"
               variant="outlined"
-              name={"signupPasswordAgain"}
-              value={ signupUser.signupPasswordAgain }
+              name={"passwordAgain"}
+              value={ signupUser.passwordAgain }
               onChange={ e => handleSignupUser(e) }
+              error={ errors.passwordAgain !== "" }
+              helperText={ errors.passwordAgain !== "" || errors.passwordAgain !== undefined ? errors.passwordAgain : false }
+              disabled={ loading }
             />
             <Grid className={ classes.cover__signup__container_button }>
               <Button
@@ -104,13 +178,13 @@ function Signup(){
                 color="primary"
                 onClick={ () => {
                   setSignupUser({
-                    signupUsername:"",
-                    signupEmail:"",
-                    signupPhone:"",
-                    signupPassword:"",
-                    signupPasswordAgain:"",
+                    username:"",
+                    email:"",
+                    password:"",
+                    passwordAgain:"",
                   })
                 } }
+                disabled={ loading }
               >
                 Clear
               </Button>
@@ -119,12 +193,15 @@ function Signup(){
                 variant="contained"
                 color="primary"
                 onClick={ handleSignupUserAxios }
+                disabled={ loading }
               >
                 Sign up
               </Button>
             </Grid>
             <Grid className={ classes.cover__signup__container_links }>
-              <Typography className={ classes.cover__signup__container_links_typography }>Have you registered?</Typography>
+              <Typography
+                className={ classes.cover__signup__container_links_typography }
+              >Have you registered?</Typography>
               <Link
                 className={ classes.cover__signup__container_links_link }
                 to={"/user/login"}

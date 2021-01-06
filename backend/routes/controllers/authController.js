@@ -133,7 +133,11 @@ const auth_signup_post = valResult => async (req, res) => {
     if( existUser ){
       return res.status( 409 ).json({
         message:"User already signed up!",
-        data: new Error("These email and password already signed up!")
+        data:{
+          errors:[
+            { param: "username", msg:"This user was registered!" }
+          ]
+        }
       })
     }
     // sign up new User
@@ -149,18 +153,16 @@ const auth_signup_post = valResult => async (req, res) => {
     return res.status( 500 ).json({
       message:"User not signed up!",
       data: {
-        errors:[
-          {
-            msg:"User not signed up because of Server's Internal errors!",
-          }
-        ]
+        errors:[ { param:"username", msg:"User not signed up because of Server's Internal errors!" } ]
       }
     })
   } catch (err) {
     // catching SERVER error
     if( err ) return res.status( 500 ).json({
       message:"Server Internal Error while signed up!",
-      data:err
+      data:{
+        errors:[ { param:"username", msg:"SERVER failed!" } ]
+      }
     })
   }
 }
@@ -177,9 +179,9 @@ const auth_login_post = valResult => async (req, res) => {
   }
 
   try {
-    const { username, password } = req.body
+    const { email, password } = req.body
     // check if user exist or not
-    let existUser = await User.findOne({ username })
+    let existUser = await User.findOne({ email })
     if( existUser ){
       let match = await bcrypt.compare( password, existUser.password )
       if( match ){
@@ -193,6 +195,7 @@ const auth_login_post = valResult => async (req, res) => {
           data: {
             errors:[
               {
+                param:"password",
                 msg:"This password is not matched!",
               }
             ]
@@ -202,11 +205,12 @@ const auth_login_post = valResult => async (req, res) => {
     }
 
     return res.status( 404 ).json({
-      message:"Username not found!",
+      message:"User email not found!",
       data: {
         errors:[
           {
-            msg:"This username not found!",
+            param:"email",
+            msg:"This user not found!",
           }
         ]
       }
@@ -215,7 +219,14 @@ const auth_login_post = valResult => async (req, res) => {
   } catch( err ) {
     if( err ) return res.status(500).json({
       message:"SERVER POINT ERROR WHILE LOGIN",
-      data:err
+      data:{
+        errors:[
+          {
+            param:"email",
+            password:"Internal SERVER failed!"
+          }
+        ]
+      }
     })
   }
 
