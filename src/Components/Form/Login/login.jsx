@@ -60,7 +60,7 @@ function Login(props){
         props.history.push("/")
       }
     } catch (err) {
-      if ( err && err.response.data.data.errors ){
+      if ( err.response && err.response.data.data.errors ){
         // switch loading off
         setLoading( false )
         let comeErrors = err.response.data.data.errors
@@ -78,7 +78,7 @@ function Login(props){
           })
         }, 4000 )
       } else {
-        console.log("Error not found")
+        console.log( err )
       }
     }
   }

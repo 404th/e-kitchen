@@ -21,17 +21,17 @@ mongoose.connect( MONGODB_URL, {
     console.log("Successfully connected to MongoDB!")
   }
 } )
-//
+// getting express server
 const app = express()
 // middlewares
 app.use( cors() )
-app.use( cookieParser() )
 app.use( express.json() )
+app.use( cookieParser() )
 // routers
 const authRoute = require("./routes/authRoute")
 app.use( '/user', authRoute )
 const prodRoute = require("./routes/prodRoute")
 app.use( '/product', prodRoute )
 
-// CONNECTING SERVER PORT
+// listening server
 app.listen( PORT, () => console.log( `SERVER is running on PORT - ${ PORT }` ) )
