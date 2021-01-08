@@ -20,7 +20,7 @@ import DeleteProduct from './deleteProduct'
 
 function ProductsTable(){
   // GLOBAL STATE
-  const { userProducts } = useContext( MyState )
+  const { userProducts, searchedProduct } = useContext( MyState )
   const classes = useStyles()
   //  refresh products table
   // useEffect( () => {
@@ -63,44 +63,63 @@ function ProductsTable(){
           </TableRow>
         </TableHead>
         <TableBody>
-          { 
-            userProducts.length > 0 ? userProducts.reverse().map((pro, ind) => {
-            let row = createData( [ind+1], pro.productName, pro.productPrice, pro.productAbout )
-            return (
-              <StyledTableRow key={row.name}>
-                <StyledTableCell align="center">{row.num}</StyledTableCell>
-                <StyledTableCell className={ classes.avatarItemInCard } component="th" scope="row">
-                  <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
-                </StyledTableCell>
-                <StyledTableCell align="center" id={ pro.productName } >{row.name}</StyledTableCell>
-                <StyledTableCell align="center">{row.price}</StyledTableCell>
-                <StyledTableCell className={ classes.editLinkProductCover } align="center">
-                  <EditProduct id={ pro._id } />
-                </StyledTableCell>
-                <StyledTableCell className={ classes.editLinkProductCover } align="center">
-                  <DeleteProduct id={ pro._id } />
-                </StyledTableCell>
-              </StyledTableRow>
-            )
-          }) : <StyledTableRow>
-          <StyledTableCell align="center"></StyledTableCell>
-          <StyledTableCell className={ classes.avatarItemInCard } component="th" scope="row">
-            <Skeleton variant={"text"} width={"100%"} height={"100%"} />
-          </StyledTableCell>
-          <StyledTableCell align="center">
-            <Skeleton variant={"text"} width={"100%"} height={"100%"} />
-          </StyledTableCell>
-          <StyledTableCell align="center">
-            <Skeleton variant={"text"} width={"100%"} height={"100%"} />
-          </StyledTableCell>
-          <StyledTableCell className={ classes.editLinkProductCover } align="center">
-            <Skeleton variant={"text"} width={"100%"} height={"100%"} />
-          </StyledTableCell>
-          <StyledTableCell className={ classes.editLinkProductCover } align="center">
-            <Skeleton variant={"text"} width={"100%"} height={"100%"} />
-          </StyledTableCell>
-        </StyledTableRow>
-        }
+          {
+            userProducts.length > 0 || searchedProduct.length > 0 ? searchedProduct.length > 0 ? searchedProduct.map((pro, ind) => {
+              let row = createData( [ind+1], pro.productName, pro.productPrice, pro.productAbout )
+              return (
+                <StyledTableRow key={row.name}>
+                  <StyledTableCell align="center">{row.num}</StyledTableCell>
+                  <StyledTableCell className={ classes.avatarItemInCard } component="th" scope="row">
+                    <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
+                  </StyledTableCell>
+                  <StyledTableCell align="center" id={ pro.productName } >{row.name}</StyledTableCell>
+                  <StyledTableCell align="center">{row.price}</StyledTableCell>
+                  <StyledTableCell className={ classes.editLinkProductCover } align="center">
+                    <EditProduct id={ pro._id } />
+                  </StyledTableCell>
+                  <StyledTableCell className={ classes.editLinkProductCover } align="center">
+                    <DeleteProduct id={ pro._id } />
+                  </StyledTableCell>
+                </StyledTableRow>
+              )
+            }) : userProducts.map((pro, ind) => {
+              let row = createData( [ind+1], pro.productName, pro.productPrice, pro.productAbout )
+              return (
+                <StyledTableRow key={row.name}>
+                  <StyledTableCell align="center">{row.num}</StyledTableCell>
+                  <StyledTableCell className={ classes.avatarItemInCard } component="th" scope="row">
+                    <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
+                  </StyledTableCell>
+                  <StyledTableCell align="center" id={ pro.productName } >{row.name}</StyledTableCell>
+                  <StyledTableCell align="center">{row.price}</StyledTableCell>
+                  <StyledTableCell className={ classes.editLinkProductCover } align="center">
+                    <EditProduct id={ pro._id } />
+                  </StyledTableCell>
+                  <StyledTableCell className={ classes.editLinkProductCover } align="center">
+                    <DeleteProduct id={ pro._id } />
+                  </StyledTableCell>
+                </StyledTableRow>
+              )
+            }) : [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ].map(pro => {
+              return <StyledTableRow key={ pro }>
+              <StyledTableCell align="center"></StyledTableCell>
+              <StyledTableCell className={ classes.avatarItemInCard } component="th" scope="row">
+                <Skeleton variant={"text"} width={"100%"} height={"100%"} />
+              </StyledTableCell>
+              <StyledTableCell align="center">
+                <Skeleton variant={"text"} width={"100%"} height={"100%"} />
+              </StyledTableCell>
+              <StyledTableCell align="center">
+                <Skeleton variant={"text"} width={"100%"} height={"100%"} />
+              </StyledTableCell>
+              <StyledTableCell className={ classes.editLinkProductCover } align="center">
+                <Skeleton variant={"text"} width={"100%"} height={"100%"} />
+              </StyledTableCell>
+              <StyledTableCell className={ classes.editLinkProductCover } align="center">
+                <Skeleton variant={"text"} width={"100%"} height={"100%"} />
+              </StyledTableCell>
+            </StyledTableRow>
+            })}
         </TableBody>
       </Table>
     </TableContainer>

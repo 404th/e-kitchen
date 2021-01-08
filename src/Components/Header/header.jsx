@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react'
+import { useContext, useState, useEffect } from 'react'
 //MATERIAL-UI
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -16,9 +16,9 @@ import { Link } from 'react-router-dom'
 import { MyState } from '../../GlobalState'
 import { useStyles } from './style/headerStyle'
 
-function Header(){
+function Header(props){
   // Global state
-  const { userIsLogged, setUserIsLogged } = useContext( MyState )
+  const { userIsLogged, setUserIsLogged, filteredProduct, setUserHeaderSearched } = useContext( MyState )
   const classes = useStyles()
 
   const [anchorEl, setAnchorEl] = useState(null);
@@ -115,9 +115,20 @@ function Header(){
   );
   
   // LIVE SEARCH PRODUCT
-  const handleSearchProduct = e => {
-    console.log( e.target.value )
-  }
+  const [ headerSearch, setHeaderSearch ] = useState("")
+  const handleSearchProduct = e => setHeaderSearch( e.target.value )
+  useEffect( () => {
+    let searchedP = filteredProduct.filter( item => {
+      if ( headerSearch !== "" ){
+        return item.productName.match( headerSearch )
+      } else {
+        return false
+      }
+    } )
+    setUserHeaderSearched( searchedP )
+  }, [ headerSearch ] )
+  
+  // HTML
   return (
     <div className={classes.root}>
       <div className={classes.grow}>
@@ -127,7 +138,7 @@ function Header(){
               <img className={classes.brand} src={`/photos/header/food.png`} alt="Food" width={"40px"}/>
             </Link>
             {
-              userIsLogged ? (<div className={classes.search}>
+              userIsLogged && window.location.pathname === "/" ? (<div className={classes.search}>
                 <div className={classes.searchIcon}>
                   <SearchIcon />
                 </div>

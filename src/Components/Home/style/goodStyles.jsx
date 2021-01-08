@@ -74,5 +74,13 @@ export const useStyles = makeStyles((theme) => ({
     flexWrap:"wrap",
     justifyContent:"space-between",
     margin:"10px",
+  },
+  //
+  notFound:{
+    fontSize:"80px",
+    fontWeight:"bold",
+    color:"#0e49b5",
+    userSelect:"none",
+    fontFamily:"Perpetua !important",
   }
 }));
