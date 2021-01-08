@@ -10,6 +10,9 @@ function GlobalState( props ){
   // useStates
   const [ isLogged, setIsLogged ] = useState( false )
   const [ products, setProducts ] = useState({})
+  const [ searched, setSearched ] = useState([]) 
+  const [ filtered, setFiltered ] = useState([])
+  const [ headerSearched, setHeaderSearcheds ] = useState([])
   
   const state = {
     // permission for User after Login
@@ -28,7 +31,16 @@ function GlobalState( props ){
       } catch (err) {
         if ( err ) console.log( err )
       }
-    }
+    },
+    // searched products
+    searchedProduct: searched,
+    setSearchedProduct: setSearched,
+    // filtered products
+    filteredProduct: filtered,
+    setFilteredProduct: setFiltered,
+    // header searched products
+    userHeaderSearched: headerSearched,
+    setUserHeaderSearched: setHeaderSearcheds
   }
   
   return (

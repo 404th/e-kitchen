@@ -9,7 +9,7 @@ const prod_payload_get = async (req, res) => {
     if ( products ){
       return res.status(200).json({
         message:"Found products!",
-        data:products
+        data:products.reverse()
       })
     }
     // send data but resp is not exist

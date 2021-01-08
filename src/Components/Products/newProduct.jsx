@@ -197,13 +197,13 @@ function NewProduct() {
               disabled={ loading }
             >
               <option>Select the category</option>
-              <option value={1}>Vegetables</option>
-              <option value={2}>Fruits</option>
-              <option value={3}>Fast Foods</option>
-              <option value={4}>Dairy</option>
-              <option value={5}>Bread</option>
-              <option value={6}>Seasoning and Spicis</option>
-              <option value={7}>Drinks</option>
+              <option value={0}>Vegetables</option>
+              <option value={1}>Fruits</option>
+              <option value={2}>Fast Foods</option>
+              <option value={3}>Dairy</option>
+              <option value={4}>Bread</option>
+              <option value={5}>Seasoning and Spicis</option>
+              <option value={6}>Drinks</option>
               {/* <MenuItem value=""> <em>Select the category</em> </MenuItem>
               <MenuItem value={1}>Vegetables</MenuItem>
               <MenuItem value={2}>Fruits</MenuItem>

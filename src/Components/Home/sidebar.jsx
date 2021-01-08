@@ -1,5 +1,5 @@
+import { useState, useContext, useEffect } from 'react';
 import { useStyles } from './style/homeStyles'
-import React, { useState } from 'react';
 import List from '@material-ui/core/List';
 import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
@@ -9,39 +9,61 @@ import Button from '@material-ui/core/Button';
 import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
-
+import { MyState } from '../../GlobalState'
 
 // PROMISE
 let items = ['Vegetables', 'Fruits', 'Fast Foods', 'Dairy', 'Bread', 'Seasoning and Spices', 'Drinks']
 
 function Sidebar () {
   const classes = useStyles()
+  // GLOBAL STATE
+  const { setFilteredProduct, userProducts } = useContext( MyState )
 
   //SET FILTER ITEM
   const [filter, setFilter] = useState({
-    checked_0: false,
-    checked_1: false,
-    checked_2: false,
-    checked_3: false,
-    checked_4: false,
-    checked_5: false,
-    checked_6: false,
+    0: false,
+    1: false,
+    2: false,
+    3: false,
+    4: false,
+    5: false,
+    6: false,
   });
 
-  const handleSetFilter = e => {
-    setFilter({ ...filter, [e.target.name]: e.target.checked });
-  };
+  // CHANGE FILTER
+  const handleSetFilter = e => setFilter({ ...filter, [e.target.name]: e.target.checked })
+
+
+  // set filtered products
+  useEffect( () => {
+    let filteredProductsToSend = []
+    for ( let key in filter ){
+      if ( filter[ key ] ) {
+        for( let i = 0; i < userProducts.length; i++ ){
+          if ( Number(key) === userProducts[i].productCategory ){
+            filteredProductsToSend.push( userProducts[i] )
+          } else {
+            continue;
+          }
+        }
+      } else {
+        continue;
+      }
+    }
+    // set filtered products
+    setFilteredProduct( filteredProductsToSend )
+  }, [ filter ] )
 
   //SET SELECT ALL
   const handleAllSetFilter = () => {
     setFilter({
-      checked_0: true,
-      checked_1: true,
-      checked_2: true,
-      checked_3: true,
-      checked_4: true,
-      checked_5: true,
-      checked_6: true,
+      0: true,
+      1: true,
+      2: true,
+      3: true,
+      4: true,
+      5: true,
+      6: true,
     });
   };
 
@@ -71,9 +93,9 @@ function Sidebar () {
                 key={ index }
                 control={
                   <Switch
-                    checked={ filter.[`checked_${ index }`] }
+                    checked={ filter[ `${ index }` ] }
                     onChange={e => handleSetFilter(e)}
-                    name={ `checked_${ index }` }
+                    name={ `${ index }` }
                     color="primary"
                   />
                 }
