@@ -240,9 +240,9 @@ const auth_login_post = valResult => async (req, res) => {
       }
     })
   }
-
 }
 
+// exporting controllers
 module.exports = {
   auth_login_post,
   auth_signup_post,
