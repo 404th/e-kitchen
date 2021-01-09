@@ -7,13 +7,18 @@ import { MyState } from '../../GlobalState'
 
 
 function SearchProduct(){
-  const { setSearchedProduct, userProducts } = useContext( MyState )
+  const { setSearchedProduct, userProducts, setUserProducts } = useContext( MyState )
   const [ selectedProds, setSelectedProds ] = useState({
     elastic_search:""
   })
   // set searched products value
   const handleSearchProducts = e => setSelectedProds({ elastic_search: e.target.value })
 
+  useEffect( () => {
+    if( !userProducts.length > 0 ){
+      setUserProducts()
+    }
+  }, [] )
   //
   useEffect( () => {
       let selected = userProducts.filter( item => {

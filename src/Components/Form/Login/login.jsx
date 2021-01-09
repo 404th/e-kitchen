@@ -1,4 +1,4 @@
-import { useState, useContext } from 'react'
+import { useState } from 'react'
 import TextField from '@material-ui/core/TextField'
 import Typography from '@material-ui/core/Typography'
 import Grid from '@material-ui/core/Grid'
@@ -7,11 +7,11 @@ import { useStyles } from '../style/formStyle'
 import axios from 'axios'
 import { Link } from 'react-router-dom'
 import { SERVER_URL } from '../../../store'
-import { MyState } from '../../../GlobalState'
+// import { MyState } from '../../../GlobalState'
 
 function Login(props){
   // GLOBAL STATE
-  const { setUserIsLogged } = useContext( MyState )
+  // const { setUserIsLogged } = useContext( MyState )
   const classes = useStyles()
   const [ loginUser, setLoginUser ] = useState({
     email:"",
@@ -47,20 +47,23 @@ function Login(props){
         data: loginUser
       })
       if ( loggedUser ) {
-        // Give permission for user to login
-        setUserIsLogged( true )
         // switch loading off
         setLoading( false )
+        // redirect to <HOME />
         // clear inputs after logging in
         setLoginUser({
           email:"",
           password:""
         })
-        // redirect to <HOME />
-        props.history.push("/")
+
+        if ( loggedUser.data === "Invalid token" ){
+          props.history.push("/")
+        } else {
+          props.history.push("/home")
+        }
       }
     } catch (err) {
-      if ( err && err.response.data.data.errors ){
+      if ( err.response && err.response.data.data.errors ){
         // switch loading off
         setLoading( false )
         let comeErrors = err.response.data.data.errors
@@ -78,7 +81,7 @@ function Login(props){
           })
         }, 4000 )
       } else {
-        console.log("Error not found")
+        console.log( err )
       }
     }
   }

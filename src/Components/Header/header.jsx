@@ -134,11 +134,11 @@ function Header(props){
       <div className={classes.grow}>
         <AppBar position="static">
           <Toolbar>
-            <Link to={"/"}>
+            <Link to={"/home"}>
               <img className={classes.brand} src={`/photos/header/food.png`} alt="Food" width={"40px"}/>
             </Link>
             {
-              userIsLogged && window.location.pathname === "/" ? (<div className={classes.search}>
+              userIsLogged && window.location.pathname === "/home" ? (<div className={classes.search}>
                 <div className={classes.searchIcon}>
                   <SearchIcon />
                 </div>

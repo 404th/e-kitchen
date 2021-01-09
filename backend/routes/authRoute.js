@@ -1,5 +1,6 @@
 const router = require("express").Router()
 const { check, validationResult } = require("express-validator")
+const { verifyToken } = require("./verifyToken")
 const {
   auth_signup_post,
   auth_login_post,
@@ -9,13 +10,13 @@ const {
 } = require("./controllers/authController")
 
 // GET - /user
-router.get( "/", auth_payload_get )
+router.get( "/", verifyToken, auth_payload_get )
 
 // PATCH - /user/edit/:id
-router.patch( "/edit/:id", auth_edit_patch )
+router.patch( "/edit/:id", verifyToken, auth_edit_patch )
 
 // DELETE - /user/delete/:id
-router.delete( "/delete/:id", auth_delete_delete )
+router.delete( "/delete/:id", verifyToken, auth_delete_delete )
 
 // POST - /user/signup
 router.post( "/signup",[

@@ -8,7 +8,7 @@ export const MyState = createContext()
 
 function GlobalState( props ){
   // useStates
-  const [ isLogged, setIsLogged ] = useState( false )
+  // const [ isLogged, setIsLogged ] = useState( false )
   const [ products, setProducts ] = useState({})
   const [ searched, setSearched ] = useState([]) 
   const [ filtered, setFiltered ] = useState([])
@@ -16,8 +16,8 @@ function GlobalState( props ){
   
   const state = {
     // permission for User after Login
-    userIsLogged: isLogged,
-    setUserIsLogged: e => { setIsLogged( e ) },
+    // userIsLogged: isLogged,
+    // setUserIsLogged: e => { setIsLogged( e ) },
     // products
     userProducts: products,
     setUserProducts: async () => {

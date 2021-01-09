@@ -64,7 +64,7 @@ function Signup( props ){
         
       } catch (err) {
         console.log( err.response )
-        if (err && err.response.data.data ) {
+        if (err.response && err.response.data.data ) {
           // switch Loading off
           setLoading( false )
           //errors array

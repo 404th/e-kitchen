@@ -1,6 +1,7 @@
 const { User } = require("../../models/userModel")
-const bcrypt = require("bcrypt")
 const { ObjectId } = require("mongodb")
+const bcrypt = require("bcrypt")
+const jwt = require("jsonwebtoken")
 
 // GET - /user
 const auth_payload_get = async (req, res) => {
@@ -144,9 +145,10 @@ const auth_signup_post = valResult => async (req, res) => {
     let savedUser = await User.create({ username, email, password })
     // if user saved response about it
     if( savedUser ){
+      // sending response to client-side after logging in
       return res.status( 201 ).json({
         message:"User signed up!",
-        data:savedUser._id
+        data:savedUser
       })
     }
     // catching error data sent but not get res from DB
@@ -183,6 +185,15 @@ const auth_login_post = valResult => async (req, res) => {
     // check if user exist or not
     let existUser = await User.findOne({ email })
     if( existUser ){
+      // creator token for user // expires in 1 day
+      const createToken = id => {
+        return jwt.sign( { id }, "compilation error 404", { expiresIn: 86400 } )
+      }
+      // get user's token
+      let token = createToken( existUser._id )
+      // set cookie for json-web-token // expires in 1 day
+      res.cookie( 'userToken', token, { httpOnly: true, maxAge: 86400 * 1000 } )
+
       let match = await bcrypt.compare( password, existUser.password )
       if( match ){
         return res.status( 200 ).json({
@@ -229,9 +240,9 @@ const auth_login_post = valResult => async (req, res) => {
       }
     })
   }
-
 }
 
+// exporting controllers
 module.exports = {
   auth_login_post,
   auth_signup_post,
