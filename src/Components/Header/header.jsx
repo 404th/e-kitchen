@@ -15,10 +15,19 @@ import LocalPharmacyRoundedIcon from '@material-ui/icons/LocalPharmacyRounded';
 import { Link } from 'react-router-dom'
 import { MyState } from '../../GlobalState'
 import { useStyles } from './style/headerStyle'
+import axios from 'axios'
+import { SERVER_URL } from '../../store'
 
-function Header(props){
+function Header(){
   // Global state
-  const { userIsLogged, setUserIsLogged, filteredProduct, setUserHeaderSearched } = useContext( MyState )
+  const {
+    filteredProduct,
+    setUserHeaderSearched,
+    setUserProducts,
+    setSearchedProduct,
+    setFilteredProduct,
+    setUserIsLogged
+  } = useContext( MyState )
   const classes = useStyles()
 
   const [anchorEl, setAnchorEl] = useState(null);
@@ -30,20 +39,18 @@ function Header(props){
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
   };
-
-  const handleMobileMenuClose = () => {};
-  
+  const handleMobileMenuClose = () => {
+    setMobileMoreAnchorEl(null);
+  };
   const handleMenuClose = () => {
     setMobileMoreAnchorEl(null)
     // FOR EVERYBODY;
     setAnchorEl(null);
     handleMobileMenuClose();
   };
-
   const handleMobileMenuOpen = (event) => {
     setMobileMoreAnchorEl(event.currentTarget);
   };
-
   const menuId = 'primary-search-account-menu';
   const renderMenu = (
     <Menu
@@ -72,13 +79,21 @@ function Header(props){
       <MenuItem className={ classes.menuItemLinkCover } onClick={handleMenuClose}>
         <Link
           className={ classes.menuItemLink }
-          to={"/logout"}
-          onClick={ () => setUserIsLogged(false) }
+          to={"/user/login"}
+          onClick={ () => {
+            // clear cookie after logging out
+            axios.get( `${ SERVER_URL }/user/logout` )
+            // clear products and users after logging out
+            setFilteredProduct([])
+            setUserHeaderSearched([])
+            setSearchedProduct([])
+            setUserProducts([])
+            setUserIsLogged( false )
+          } }
         >Log out</Link>
       </MenuItem>
     </Menu>
   );
-
   const mobileMenuId = 'primary-search-account-menu-mobile';
   const renderMobileMenu = (
     <Menu
@@ -113,7 +128,6 @@ function Header(props){
       </MenuItem>
     </Menu>
   );
-  
   // LIVE SEARCH PRODUCT
   const [ headerSearch, setHeaderSearch ] = useState("")
   const handleSearchProduct = e => setHeaderSearch( e.target.value )
@@ -138,7 +152,7 @@ function Header(props){
               <img className={classes.brand} src={`/photos/header/food.png`} alt="Food" width={"40px"}/>
             </Link>
             {
-              userIsLogged && window.location.pathname === "/home" ? (<div className={classes.search}>
+              window.location.pathname === "/home" ? (<div className={classes.search}>
                 <div className={classes.searchIcon}>
                   <SearchIcon />
                 </div>

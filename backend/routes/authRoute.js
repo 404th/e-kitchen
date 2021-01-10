@@ -6,7 +6,9 @@ const {
   auth_login_post,
   auth_edit_patch,
   auth_delete_delete,
-  auth_payload_get
+  auth_payload_get,
+  auth_logout_get,
+  auth_isLogged_get
 } = require("./controllers/authController")
 
 // GET - /user
@@ -30,6 +32,12 @@ router.post( "/login", [
   check("email", "Enter valid email!").isEmail(),
   check("password", "Should be more than 4").isLength({ min:4 })
 ], auth_login_post( validationResult ) )
+
+// GET - /user/logout
+router.get( "/logout", auth_logout_get )
+
+// GET - /user/is-logged
+router.get( "/is-logged", auth_isLogged_get )
 
 // export routers
 module.exports = router

@@ -1,4 +1,4 @@
-import { useContext, useState, useEffect } from 'react'
+import { useContext, useEffect } from 'react'
 import Grid from '@material-ui/core/Grid';
 //COMPONENTS
 import Sidebar from './sidebar'
@@ -8,7 +8,7 @@ import { MyState } from '../../GlobalState'
 
 function Home(){
   // GLOBAL STATE
-  const { setUserProducts } = useContext( MyState )
+  const { setUserProducts, userIsLogged } = useContext( MyState )
   // get all products
   useEffect( () => {
     setUserProducts()
@@ -18,6 +18,7 @@ function Home(){
 
   return (
     <Grid container>
+      { console.log(  ) }
       <Sidebar />
       <Grid className={ classes.goodsContainer } item xs={12} sm={8} md={9} lg={10}>
         <Goods />

@@ -15,23 +15,25 @@ function SearchProduct(){
   const handleSearchProducts = e => setSelectedProds({ elastic_search: e.target.value })
 
   useEffect( () => {
-    if( !userProducts.length > 0 ){
+    if( userProducts && !userProducts.length > 0 ){
       setUserProducts()
     }
   }, [] )
-  //
+  // 
   useEffect( () => {
+    // set searched productions
+    if ( userProducts.length > 0 ) {
       let selected = userProducts.filter( item => {
         if( selectedProds.elastic_search !== "" ){
-          return item.productName.match( selectedProds.elastic_search)
+          return item.productName.match( selectedProds.elastic_search )
         } else {
-          return false
+          return []
         }
-    })
-    // set searched productions
-    setSearchedProduct( selected )
+      })
+      setSearchedProduct( selected )
+    }
   }, [ selectedProds ] )
-
+  
   const classes = useStyles()
   return (
     <TextField

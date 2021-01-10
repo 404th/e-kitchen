@@ -27,7 +27,6 @@ const auth_payload_get = async (req, res) => {
   }
 }
 
-
 // DELETE - /user/delete/:id
 const auth_delete_delete = async (req, res) => {
   try {
@@ -242,11 +241,47 @@ const auth_login_post = valResult => async (req, res) => {
   }
 }
 
+// GET - /user/logout
+const auth_logout_get = async (req, res) => {
+  await res.cookie( 'userToken', "", { maxAge: 1 } )
+  res.status(200).json({
+    message:"User logged out!"
+  })
+}
+
+// GET - /user/is-logged
+const auth_isLogged_get = async (req, res) => {
+  const { userToken } = req.cookies
+
+  jwt.verify( userToken, "compilation error 404", (err, decod) => {
+    if (err) {
+      return res.status(200).json({
+        message:"Invalid token!",
+        data: false
+      })
+    } else {
+      if (decod){
+        return res.status(200).json({
+          message:"Valid token!",
+          data: true
+        })
+      } else {
+        return res.status(200).json({
+          message:"Invalid token!"
+        })
+      }
+    }
+  } )
+
+}
+
 // exporting controllers
 module.exports = {
   auth_login_post,
   auth_signup_post,
   auth_edit_patch,
   auth_delete_delete,
-  auth_payload_get
+  auth_payload_get,
+  auth_logout_get,
+  auth_isLogged_get
 }
