@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useContext } from 'react'
 import TextField from '@material-ui/core/TextField'
 import Typography from '@material-ui/core/Typography'
 import Grid from '@material-ui/core/Grid'
@@ -7,11 +7,11 @@ import { useStyles } from '../style/formStyle'
 import axios from 'axios'
 import { Link } from 'react-router-dom'
 import { SERVER_URL } from '../../../store'
-// import { MyState } from '../../../GlobalState'
+import { MyState } from '../../../GlobalState'
 
-function Login(props){
+function Login (props) {
   // GLOBAL STATE
-  // const { setUserIsLogged } = useContext( MyState )
+  const { setUserIsLogged } = useContext( MyState )
   const classes = useStyles()
   const [ loginUser, setLoginUser ] = useState({
     email:"",
@@ -34,6 +34,8 @@ function Login(props){
   const [ loading, setLoading ] = useState( false )
   const handleLoginUserAxios = async () => {
     try {
+      // set logged in Client
+      setUserIsLogged( true )
       // clear errors
       setErrors({
         email:"",
@@ -47,20 +49,16 @@ function Login(props){
         data: loginUser
       })
       if ( loggedUser ) {
+        setUserIsLogged( true )
         // switch loading off
         setLoading( false )
         // redirect to <HOME />
+        props.history.push('/home')
         // clear inputs after logging in
         setLoginUser({
           email:"",
           password:""
         })
-
-        if ( loggedUser.data === "Invalid token" ){
-          props.history.push("/")
-        } else {
-          props.history.push("/home")
-        }
       }
     } catch (err) {
       if ( err.response && err.response.data.data.errors ){

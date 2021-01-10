@@ -1,4 +1,4 @@
-import { useContext } from 'react'
+import { useContext, useEffect } from 'react'
 import { withStyles } from '@material-ui/core/styles'
 import Table from '@material-ui/core/Table'
 import TableBody from '@material-ui/core/TableBody'
@@ -20,12 +20,12 @@ import DeleteProduct from './deleteProduct'
 
 function ProductsTable(){
   // GLOBAL STATE
-  const { userProducts, searchedProduct } = useContext( MyState )
+  const { userProducts, searchedProduct, setUserProducts } = useContext( MyState )
   const classes = useStyles()
   //  refresh products table
-  // useEffect( () => {
-  //   setUserProducts()
-  // }, [] )
+  useEffect( () => {
+    setUserProducts()
+  }, [] )
 
   const StyledTableCell = withStyles((theme) => ({
     head: {
