@@ -11,7 +11,7 @@ import { MyState } from '../../../GlobalState'
 
 function Login (props) {
   // GLOBAL STATE
-  const { setUserIsLogged } = useContext( MyState )
+  const { setUserIsLogged, setUserProducts } = useContext( MyState )
   const classes = useStyles()
   const [ loginUser, setLoginUser ] = useState({
     email:"",
@@ -34,8 +34,6 @@ function Login (props) {
   const [ loading, setLoading ] = useState( false )
   const handleLoginUserAxios = async () => {
     try {
-      // set logged in Client
-      setUserIsLogged( true )
       // clear errors
       setErrors({
         email:"",
@@ -48,10 +46,13 @@ function Login (props) {
         url:`${SERVER_URL}/user/login`,
         data: loginUser
       })
+
       if ( loggedUser ) {
+        localStorage.setItem( "currentUser", JSON.stringify( loggedUser.data.data ) )
         setUserIsLogged( true )
         // switch loading off
         setLoading( false )
+        setUserProducts()
         // redirect to <HOME />
         props.history.push('/home')
         // clear inputs after logging in

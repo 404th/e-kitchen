@@ -1,4 +1,5 @@
 const { Product } = require("../../models/prodModel")
+const { User } = require("../../models/userModel")
 const { ObjectId } = require("mongodb")
 
 // GET - /product
@@ -50,7 +51,7 @@ const prod_add_post = valResult => async (req, res) => {
     }
 
     // Run this code when everthing is OK
-    let savedProduct = Product.create({ ...req.body })
+    let savedProduct = Product.create({ ...req.body, productLike:0 })
     if( savedProduct ){
       return res.status( 200 ).json({
         message:"Product has been added successfully to the list!",
@@ -183,5 +184,78 @@ const prod_delete_delete = async (req, res) => {
 
 }
 
+// POST - /product/like?id
+const prod_like_post = async (req, res) => {  
+  try {
+    const { prod_id, user_id } = req.query
+    const { like } = req.body
+    let selectedProd = await Product.findById( prod_id )
+    if( selectedProd ){
+      let selectedUser = await User.findById( user_id )
+      // check if user exists or not
+      if( selectedUser ){
+        let likedProd = await Product.updateOne( {_id:prod_id}, { $inc:{ likedProd: like ? 1 : -1 } } )
+        if ( likedProd ){
+          let userLiked = await User.updateOne(
+            {_id:user_id},
+            { $push: {
+                likedProducts: {
+                  productName: likedProd.productName,
+                  product_id:likedProd._id
+                }
+            }}
+          )
+          if (userLiked){
+            return res.status(200).json({
+              message: like ? "Product liked!" : "Product disliked!",
+              data: {
+                isLiked: !like
+              }
+            })
+          } else {
+            // req sent to User but res did not exist
+            return res.status(401).json({
+              message:"res does not exist",
+              data:{ user_id, prod_id }
+            })
+          }                  
+        } else {
+          // req sent to Product but res did not come
+          return res.status(400).json({
+            message:"req sent to Product but res did not come",
+            data:{ prod_id, user_id }
+          })
+        }
+      } else {
+        // if user not found
+        return res.status(401).json({
+          message:"User doesn't exist in DB",
+          data:{ prod_id, user_id }
+        })
+      }
+    } else {
+      // liked product not found from DB
+      return res.status(401).json({
+        message:"Product not found!",
+        data:{ prod_id, user_id }
+      })
+    }
+  } catch (err) {
+    // if some error in server
+    if (err){
+      return res.status(500).json({
+        message:"Internal SERVER error!",
+        data:err
+      })
+    }
+  }
+}
+
 // export controllers
-module.exports = { prod_add_post, prod_edit_patch, prod_delete_delete, prod_payload_get }
+module.exports = {
+  prod_add_post,
+  prod_edit_patch,
+  prod_delete_delete,
+  prod_payload_get,
+  prod_like_post
+}

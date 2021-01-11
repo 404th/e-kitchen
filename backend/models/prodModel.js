@@ -16,6 +16,9 @@ const ProdSchema = mongoose.Schema({
   },
   productImage:{
     type:String
+  },
+  productLike:{
+    type:Number
   }
 },{ timestamps:true })
 
