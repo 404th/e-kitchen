@@ -11,12 +11,9 @@ import Paper from '@material-ui/core/Paper'
 import Skeleton from '@material-ui/lab/Skeleton';
 import { useStyles } from './style/productsStyle'
 import { MyState } from '../../GlobalState'
-// import axios from 'axios'
-// import { SERVER_URL } from '../../store'
 
 import EditProduct from './editProduct'
 import DeleteProduct from './deleteProduct'
-
 
 function ProductsTable(){
   // GLOBAL STATE
@@ -36,7 +33,7 @@ function ProductsTable(){
       fontSize: 14
     },
   }))(TableCell)
-  // axios
+
   function createData(num, name, price, about) {
     return { num, name, price, about }
   }
@@ -64,7 +61,7 @@ function ProductsTable(){
         </TableHead>
         <TableBody>
           {
-            userProducts.length > 0 || searchedProduct.length > 0 ? searchedProduct.length > 0 ? searchedProduct.map((pro, ind) => {
+            userProducts.length > 0 ? searchedProduct.length > 0 ? searchedProduct.map((pro, ind) => {
               let row = createData( [ind+1], pro.productName, pro.productPrice, pro.productAbout )
               return (
                 <StyledTableRow key={row.name}>

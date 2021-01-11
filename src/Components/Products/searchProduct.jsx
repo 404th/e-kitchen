@@ -25,9 +25,9 @@ function SearchProduct(){
     if ( userProducts.length > 0 ) {
       let selected = userProducts.filter( item => {
         if( selectedProds.elastic_search !== "" ){
-          return item.productName.match( selectedProds.elastic_search )
+          return item.productName.toLowerCase().match( selectedProds.elastic_search.toLowerCase() )
         } else {
-          return []
+          setSearchedProduct([])
         }
       })
       setSearchedProduct( selected )

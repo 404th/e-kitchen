@@ -22,9 +22,7 @@ function GlobalState( props ){
     userProducts: products,
     setUserProducts: async () => {
       try {
-        let comeProducts = await axios.get(`${SERVER_URL}/product`, {
-          "Access-Control-Allow-Origin":"*"
-        })
+        let comeProducts = await axios.get(`${SERVER_URL}/product`)
         if ( comeProducts ) {
           setProducts( comeProducts.data.data )
         } else {
@@ -44,7 +42,7 @@ function GlobalState( props ){
     userHeaderSearched: headerSearched,
     setUserHeaderSearched: setHeaderSearcheds
   }
-  
+
   return (
     <MyState.Provider value={ state }>
       { props.children }
