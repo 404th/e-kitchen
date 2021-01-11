@@ -31,6 +31,12 @@ export const useStyles = makeStyles((theme) => ({
   shoppingCardLink: {
     textDecoration: "none !important",
   },
+  //
+  user_info: {
+    display:"flex",
+    justifyContent:"center",
+    alignItems:"center"
+  },
   searchIcon: {
     padding: theme.spacing(0, 2),
     height: '100%',

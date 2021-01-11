@@ -196,9 +196,10 @@ const auth_login_post = valResult => async (req, res) => {
 
       let match = await bcrypt.compare( password, existUser.password )
       if( match ){
+        
         return res.status( 200 ).json({
           message:"User login!",
-          data:existUser._id
+          data: existUser
         })
       } else {
         return res.status( 401 ).json({

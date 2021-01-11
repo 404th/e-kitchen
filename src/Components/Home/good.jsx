@@ -1,4 +1,4 @@
-import React from 'react';
+import { useState, useContext } from 'react';
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
 import CardMedia from '@material-ui/core/CardMedia';
@@ -12,24 +12,32 @@ import Checkbox from '@material-ui/core/Checkbox';
 import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCart';
 import { useStyles } from './style/goodStyles'
 import { NOT_IMAGE } from '../../store'
+import GoodDialog from './goodDialog'
+
+import { MyState } from '../../GlobalState'
+
 function Good(props){
-
   const classes = useStyles();
+  // Global state
+  const { setUserProductLike, userProductLike } = useContext( MyState )
 
-  //CHECKBOXES
-  // const [state, setState] = useState({
-  //   checkedLike: false,
-  //   checkedGood: false
-  // });
+  // for dialog
+  const [open, setOpen] = useState(false);
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
 
-  const handleChange = e => {
-    console.log( e )
-    // console.log( state )
-    // setState({ ...state, [e.target.name]: e.target.checked });
+  const handleClose = () => {
+    setOpen(false);
   };
   
   return (
     <Card className={classes.root}>
+      <GoodDialog
+        open={open}
+        handleClose={ handleClose }
+        prod={ props.info }
+      />
       <CardHeader
         avatar={
           <Avatar aria-label="recipe" className={classes.avatar}>
@@ -44,6 +52,7 @@ function Good(props){
         // image={ props.imgSrc }
         image={ NOT_IMAGE }
         title={ props.info.productName }
+        onClick={ handleClickOpen }
       />
       <CardContent>
         <Typography noWrap variant="body2" color="textSecondary" component="p">
@@ -52,13 +61,13 @@ function Good(props){
       </CardContent>
       <CardActions disableSpacing>
         <Checkbox
-          onChange={ e => { handleChange(e) } }
           icon={<FavoriteBorder />}
           checkedIcon={<Favorite />}
           name="checkedLike"
+          checked={ userProductLike }
+          onClick={ () => {setUserProductLike( props.info._id )} }
         />
         <Checkbox
-          onChange={ e => { handleChange(e) } }
           icon={<AddShoppingCartIcon />}
           checkedIcon={<AddShoppingCartIcon color={"primary"} />}
           name="checkedGood"

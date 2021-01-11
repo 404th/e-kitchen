@@ -4,6 +4,7 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
 import InputBase from '@material-ui/core/InputBase';
+import Typography from '@material-ui/core/Typography' 
 import Badge from '@material-ui/core/Badge';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
@@ -84,6 +85,7 @@ function Header(){
             // clear cookie after logging out
             axios.get( `${ SERVER_URL }/user/logout` )
             // clear products and users after logging out
+            localStorage.removeItem("currentUser")
             setFilteredProduct([])
             setUserHeaderSearched([])
             setSearchedProduct([])
@@ -169,6 +171,13 @@ function Header(){
             }
             <div className={classes.grow} />
             <div className={classes.sectionDesktop}>
+              <div className={classes.user_info}>
+                <Typography>
+                  { localStorage.getItem('currentUser') && JSON.parse( localStorage.getItem( "currentUser" ) ).username }
+                  <span> | </span>
+                  { localStorage.getItem('currentUser') && JSON.parse( localStorage.getItem( "currentUser" ) ).email }
+                </Typography>
+              </div>
               <Link className={classes.shoppingCardLink} to={"/shopping-card"}>
                 <IconButton aria-label="show 4 new mails">
                   <Badge badgeContent={4} color={"secondary"}>
