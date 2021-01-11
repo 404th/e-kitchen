@@ -25,18 +25,17 @@ function DeleteProduct( props ){
     try {
       let deletedProd = await axios({
         method:"DELETE",
-        url:`${ SERVER_URL }/product/delete/${ props.id }`
+        url:`${ SERVER_URL }/product/delete?id=${ props.id }`
       })
       // loading
       if ( deletedProd ){
-        // switch Loading on
-        setLoading( true )
         // refresh
         setUserProducts()
+        // switch Loading on
+        setLoading( true )
       } else {
         console.log( "Req sent but data not catch!" )
       }
-
     } catch (err) {
       if (err){
         console.log( err )

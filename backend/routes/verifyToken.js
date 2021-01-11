@@ -7,8 +7,12 @@ const verifyToken = (req, res, next) => {
       jwt.verify( userToken, "compilation error 404", (err, decod) => {
         if (err) {
           // error: invalid verification token
-          console.log("Invalid token!")
-          res.redirect(`${ process.env.CLIENT_URL }/user/login`)
+          return res.status(200).json({
+            message:"Invalid token!",
+            data:{
+              isLogged: false
+            }
+          })
         } else {
           // allows to use protected routes
           next()
@@ -16,10 +20,21 @@ const verifyToken = (req, res, next) => {
       } )
     } else {
       // error: user has not token
-      console.log( "Invalid token!" )
+      return res.status(200).json({
+        message:"User has no token!",
+        data:{
+          isLogged: false
+        }
+      })
     }
   } else {
-    console.log("User has no cookie!")
+    // cookie not found
+    return res.status(200).json({
+      message:"User has no cookie or browser might have been detected to save cookies!",
+      data:{
+        isLogged: false
+      }
+    })
   }
 }
 module.exports = { verifyToken }

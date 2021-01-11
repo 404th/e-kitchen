@@ -17,7 +17,7 @@ router.get( "/", verifyToken, auth_payload_get )
 // PATCH - /user/edit/:id
 router.patch( "/edit/:id", verifyToken, auth_edit_patch )
 
-// DELETE - /user/delete/:id
+// DELETE - /user/delete?id=id
 router.delete( "/delete/:id", verifyToken, auth_delete_delete )
 
 // POST - /user/signup
@@ -37,7 +37,7 @@ router.post( "/login", [
 router.get( "/logout", auth_logout_get )
 
 // GET - /user/is-logged
-router.get( "/is-logged", auth_isLogged_get )
+router.get( "/is-logged", verifyToken, auth_isLogged_get )
 
 // export routers
 module.exports = router

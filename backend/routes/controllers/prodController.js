@@ -85,10 +85,10 @@ const prod_add_post = valResult => async (req, res) => {
 
 }
 
-// PATCH - /product/edit/:id
+// PATCH - /product/edit?id
 const prod_edit_patch = async (req, res) => {
   try {
-    const { id } = req.params
+    const { id } = req.query
     // Check if Product exist
     const existProduct = await Product.findById( new ObjectId( id ) )
     if( existProduct ){
@@ -136,12 +136,12 @@ const prod_edit_patch = async (req, res) => {
   }
 }
 
-// DELETE - /product/delete/:id
+// DELETE - /product/delete?id
 const prod_delete_delete = async (req, res) => {
   try {
     // catcing deleted product id
-    const { id } = req.params
-    
+    const { id } = req.query
+
     if ( id ) {
       // check if product exists
       let existProd = await Product.findById( id )

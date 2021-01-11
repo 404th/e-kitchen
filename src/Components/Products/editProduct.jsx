@@ -9,8 +9,12 @@ import Select from '@material-ui/core/Select';
 import axios from 'axios'
 import { SERVER_URL } from '../../store'
 import { MyState } from '../../GlobalState'
+import { useStyles } from './style/productsStyle'
 
 function EditProduct(props) {
+  // styles
+  const classes = useStyles()
+
   const { setUserProducts } = useContext( MyState )
   const [ open, setOpen ] = useState(false);
   const [ editedProduct, setEditedProduct ] = useState({
@@ -42,7 +46,7 @@ function EditProduct(props) {
       setLoading( true )
       let comeData = await axios({
         method:"PATCH",
-        url:`${ SERVER_URL }/product/edit/${ props.id }`,
+        url:`${ SERVER_URL }/product/edit?id=${ props.id }`,
         data: editedProduct
       })
       if ( comeData ){
@@ -91,6 +95,12 @@ function EditProduct(props) {
   };
   // CLOSE DIALOG
   const handleClose = () => {
+    setEditedProduct({
+      productName:"",
+      productPrice:"",
+      productAbout:"",
+      productCategory:""
+    })
     setOpen(false);
   };
 

@@ -14,11 +14,11 @@ router.post( "/add", verifyToken ,[
   // check("productImage", "Product image is required!").isLength({ min:1 }).trim(),
 ] ,prod_add_post(validationResult) )
 
-// PATCH - /product/edit/:id
-router.patch( "/edit/:id", verifyToken ,prod_edit_patch )
+// PATCH - /product/edit?id
+router.patch( "/edit", verifyToken ,prod_edit_patch )
 
-// DELETE - /product/delete/:id
-router.delete( "/delete/:id", verifyToken ,prod_delete_delete )
+// DELETE - /product/delete?id
+router.delete( "/delete", verifyToken ,prod_delete_delete )
 
 // exporting all router
 module.exports = router

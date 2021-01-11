@@ -63,10 +63,11 @@ const auth_delete_delete = async (req, res) => {
   }
 }
 
-// PATCH - /user/delete/:id
+// PATCH - /user/delete?id=id
 const auth_edit_patch = async (req, res) => {
   try {
-    const { id } = req.params
+    const { id } = req.query
+    consolq.log( req.query )
     // Check if User exist
     const existUser = await User.findById( id )
     if( existUser ){
@@ -251,28 +252,12 @@ const auth_logout_get = async (req, res) => {
 
 // GET - /user/is-logged
 const auth_isLogged_get = async (req, res) => {
-  const { userToken } = req.cookies
-
-  jwt.verify( userToken, "compilation error 404", (err, decod) => {
-    if (err) {
-      return res.status(200).json({
-        message:"Invalid token!",
-        data: false
-      })
-    } else {
-      if (decod){
-        return res.status(200).json({
-          message:"Valid token!",
-          data: true
-        })
-      } else {
-        return res.status(200).json({
-          message:"Invalid token!"
-        })
-      }
+  return res.status(200).json({
+    message:"User is logged in",
+    data:{
+      isLogged: true
     }
-  } )
-
+  })
 }
 
 // exporting controllers
