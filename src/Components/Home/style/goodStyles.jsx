@@ -82,5 +82,34 @@ export const useStyles = makeStyles((theme) => ({
     color:"#0e49b5",
     userSelect:"none",
     fontFamily:"Perpetua !important",
+  },
+  // delete and add buttons
+  addToBasketButton:{
+    width:"100%",
+    color:"#fff",
+    backgroundColor:"#ff7043",
+    padding:"5px",
+    fontFamily:"Perpetua !important",
+    border:"0",
+    "&:hover":{
+      backgroundColor:"#f4511e"
+    },
+    "&:active":{
+      backgroundColor:"#bf360c"
+    }
+  },
+  deleteFromBasketButton:{
+    width:"100%",
+    color:"#fff",
+    backgroundColor:"#aeea00",
+    padding:"5px",
+    fontFamily:"Perpetua !important",
+    border:"0",
+    "&:hover":{
+      backgroundColor:"#cddc39"
+    },
+    "&:active":{
+      backgroundColor:"#afb42b"
+    },
   }
 }));

@@ -10,12 +10,11 @@ function GlobalState( props ){
   // useStates
   const [ isLogged, setIsLogged ] = useState( false )
   const [ products, setProducts ] = useState([])
-  const [ currentUser, setCurrentUser ] = useState({})
   const [ searched, setSearched ] = useState([])
   const [ filtered, setFiltered ] = useState([])
   const [ headerSearched, setHeaderSearcheds ] = useState([])
-  const [ productLike, setProductLike ] = useState( false )
-  const [ productBasket, setProductBasket ] = useState([])
+  // const [ productLike, setProductLike ] = useState( false )
+  const [ prodBasket, setProdBasket ] = useState([])
   
   const state = {
     // permission for User after Login
@@ -44,16 +43,51 @@ function GlobalState( props ){
     // header searched products
     userHeaderSearched: headerSearched,
     setUserHeaderSearched: setHeaderSearcheds,
-    // like product
-    userProductLike: productLike,
-    setUserProductLike: async _id => {
-      let liked = await axios.post(
-        `${ SERVER_URL }/product/like?user_id=${ JSON.parse( localStorage.getItem('currentUser') )._id }&prod_id=${ _id }`,
-        { like: productLike }
-      )
-      //
-      setProductLike( liked.data.isLiked )
+    // get basket before updating
+    setUserProdBasketUpdater: async () => {
+      try {
+        let payload = await axios.get( `${ SERVER_URL }/product/basket/payload?user_id=${ JSON.parse( localStorage.getItem("currentUser") )._id}` )
+        if( payload ){
+          setProdBasket( payload.data.data.basket )
+        } else {
+          setProdBasket([])
+        }
+      } catch (err) {
+        if (err) {
+          console.log( err )
+        }
+      }
+    },
+    // basket product
+    userProdBasket: prodBasket,
+    setUserProdBasket: async prodId => {
+      console.log( document.getElementById( prodId ).getAttribute("added") )
+      if ( document.getElementById( prodId ).getAttribute("added") === "no" ) {
+        let cominData = await axios.post( `${SERVER_URL}/product/basket?user_id=${ JSON.parse( localStorage.getItem("currentUser") )._id}&prod_id=${ prodId }`,
+          { actionType:"add" }
+        )
+        if ( cominData ) {
+          setProdBasket( cominData.data.data.basket )
+        }
+      } else if ( document.getElementById( prodId ).getAttribute("added") === "yes" ) {
+        let cominData = await axios.post(`${SERVER_URL}/product/basket?user_id=${ JSON.parse( localStorage.getItem("currentUser") )._id}&prod_id=${ prodId }`,
+          { actionType:"delete" }
+        )
+        if ( cominData ) {
+          setProdBasket( cominData.data.data.basket )
+        }
+      }
     }
+    // like product
+    // userProductLike: productLike,
+    // setUserProductLike: async _id => {
+    //   let liked = await axios.post(
+    //     `${ SERVER_URL }/product/like?user_id=${ JSON.parse( localStorage.getItem('currentUser') )._id }&prod_id=${ _id }`,
+    //     { like: productLike }
+    //   )
+    //   //
+    //   setProductLike( liked.data )
+    // }
   }
 
   return (

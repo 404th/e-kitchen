@@ -8,10 +8,11 @@ import { MyState } from '../../GlobalState'
 
 function Home(){
   // GLOBAL STATE
-  const { setUserProducts } = useContext( MyState )
+  const { setUserProducts, setUserProdBasketUpdater } = useContext( MyState )
   // get all products
   useEffect( () => {
     setUserProducts()
+    setUserProdBasketUpdater()
   }, [] )
   // Styles
   const classes = useStyles()

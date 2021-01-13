@@ -10,7 +10,8 @@ const UserSchema = Schema({
   },
   password:{
     type: String,
-  }
+  },
+  basket:[{ type:String }]
 },{
   timestamps:true
 })
