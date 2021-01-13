@@ -184,7 +184,7 @@ const prod_delete_delete = async (req, res) => {
 
 }
 
-// POST - /product/like?id
+// POST - /product/like?prod_id&user_id
 const prod_like_post = async (req, res) => {  
   try {
     const { prod_id, user_id } = req.query
@@ -251,11 +251,115 @@ const prod_like_post = async (req, res) => {
   }
 }
 
+// POST - /product/basket?prod_id&user_id
+const prod_basket_post = async (req, res) => {
+
+  try {
+    // catch params
+    const { user_id, prod_id } = req.query
+    const { actionType } = req.body
+    if ( actionType === "add" ){
+
+      let waitenArr = await User.findByIdAndUpdate( user_id, { $addToSet:{ basket:[ prod_id ] } }, { upsert: true, new:true } )
+ 
+      if ( waitenArr ){
+        return res.status( 200 ).json({
+          message:"Added to basket!",
+          data: {
+            basket: waitenArr.basket
+          }
+        })
+      }
+
+      return res.status(404).json({
+        message:"Req sent but res did not come",
+        data: {prod_id, user_id}
+      })
+
+    } else if ( actionType === "delete" ){
+      let waitenArr = await User.findByIdAndUpdate( user_id, { $pull:{ basket: prod_id } }, { new: true } )
+
+      if ( waitenArr ){
+        return res.status( 200 ).json({
+          message:"Deleted from basket!",
+          data: {
+            basket: waitenArr.basket
+          }
+        })
+      }
+
+      return res.status(404).json({
+        message:"Req sent but res did not come",
+        data: {prod_id, user_id}
+      })
+
+    }
+
+
+  } catch (err){
+    if (err){
+      return res.status(500).json({
+        message:"Internal SERVER error!",
+        data: err
+      })
+    }
+  }
+}
+
+// GET - /product/basket/payload?user_id
+const prod_basket_payload_get = async (req, res) => {
+
+  try {
+
+    const { user_id } = req.query
+    
+    let payload = await User.findById( user_id )
+    if ( payload ){
+      return res.status(200).json({
+        message:"Everything is OK",
+        data:{
+          basket: payload.basket
+        }
+      })
+
+    } else {
+      return res.status(404).json({
+        message:"User not found!",
+        data:{
+          errors:[
+            {
+              param:"Basket payload",
+              msg:"User not found!"
+            }
+          ]
+        }
+      })
+    }
+
+  } catch (err) {
+    if (err) {
+      return res.status(500).json({
+        message:"Internal SERVER error while getting users basket info!",
+        data:{
+          errors:[
+            {
+              param:"SERVER",
+              msg:"Server Internal errors!"
+            }
+          ]
+      }})
+    }
+  }
+
+}
+
 // export controllers
 module.exports = {
   prod_add_post,
   prod_edit_patch,
   prod_delete_delete,
   prod_payload_get,
-  prod_like_post
+  prod_like_post,
+  prod_basket_post,
+  prod_basket_payload_get
 }

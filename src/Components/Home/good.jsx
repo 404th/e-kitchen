@@ -10,6 +10,7 @@ import Favorite from '@material-ui/icons/Favorite';
 import FavoriteBorder from '@material-ui/icons/FavoriteBorder';
 import Checkbox from '@material-ui/core/Checkbox';
 import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCart';
+import Button from '@material-ui/core/Button'
 import { useStyles } from './style/goodStyles'
 import { NOT_IMAGE } from '../../store'
 import GoodDialog from './goodDialog'
@@ -19,7 +20,7 @@ import { MyState } from '../../GlobalState'
 function Good(props){
   const classes = useStyles();
   // Global state
-  const { setUserProductLike, userProductLike } = useContext( MyState )
+  const { userProdBasket, setUserProdBasket } = useContext( MyState )
 
   // for dialog
   const [open, setOpen] = useState(false);
@@ -60,18 +61,16 @@ function Good(props){
         </Typography>
       </CardContent>
       <CardActions disableSpacing>
-        <Checkbox
-          icon={<FavoriteBorder />}
-          checkedIcon={<Favorite />}
-          name="checkedLike"
-          checked={ userProductLike }
-          onClick={ () => {setUserProductLike( props.info._id )} }
-        />
-        <Checkbox
-          icon={<AddShoppingCartIcon />}
-          checkedIcon={<AddShoppingCartIcon color={"primary"} />}
-          name="checkedGood"
-        />
+        <button
+          className={ userProdBasket.includes( props.info._id ) ? classes.addToBasketButton : classes.deleteFromBasketButton }
+          added={ userProdBasket.includes( props.info._id ) ? "yes" : "no" }
+          id={ [props.info._id] }
+          onClick={ () => {setUserProdBasket( props.info._id )} }
+        >
+          {
+            userProdBasket.includes( props.info._id ) ? "DELETE FROM BASKET": "ADD TO BASKET"
+          }
+        </button>
       </CardActions>
     </Card>
   )

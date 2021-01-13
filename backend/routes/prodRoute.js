@@ -6,7 +6,9 @@ const {
   prod_edit_patch,
   prod_delete_delete,
   prod_payload_get,
-  prod_like_post
+  prod_like_post,
+  prod_basket_post,
+  prod_basket_payload_get
 } = require("./controllers/prodController")
 // GET - /product
 router.get( "/", verifyToken, prod_payload_get )
@@ -28,6 +30,12 @@ router.delete( "/delete", verifyToken, prod_delete_delete )
 
 // POST - /product/like?id
 router.post( "/like", verifyToken, prod_like_post )
+
+// POST - /product/basket?user_id&prod_id
+router.post( "/basket", prod_basket_post )
+
+// GET - /product/basket/payload?user_id
+router.get( "/basket/payload", prod_basket_payload_get )
 
 // exporting all router
 module.exports = router

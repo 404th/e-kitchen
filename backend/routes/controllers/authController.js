@@ -142,7 +142,7 @@ const auth_signup_post = valResult => async (req, res) => {
       })
     }
     // sign up new User
-    let savedUser = await User.create({ username, email, password })
+    let savedUser = await User.create({ username, email, password, basket:[] })
     // if user saved response about it
     if( savedUser ){
       // sending response to client-side after logging in
@@ -196,7 +196,6 @@ const auth_login_post = valResult => async (req, res) => {
 
       let match = await bcrypt.compare( password, existUser.password )
       if( match ){
-        
         return res.status( 200 ).json({
           message:"User login!",
           data: existUser
