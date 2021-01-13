@@ -6,11 +6,6 @@ import CardContent from '@material-ui/core/CardContent';
 import CardActions from '@material-ui/core/CardActions';
 import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
-import Favorite from '@material-ui/icons/Favorite';
-import FavoriteBorder from '@material-ui/icons/FavoriteBorder';
-import Checkbox from '@material-ui/core/Checkbox';
-import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCart';
-import Button from '@material-ui/core/Button'
 import { useStyles } from './style/goodStyles'
 import { NOT_IMAGE } from '../../store'
 import GoodDialog from './goodDialog'
