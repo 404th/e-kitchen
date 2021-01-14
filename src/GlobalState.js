@@ -13,10 +13,12 @@ function GlobalState( props ){
   const [ searched, setSearched ] = useState([])
   const [ filtered, setFiltered ] = useState([])
   const [ headerSearched, setHeaderSearcheds ] = useState([])
-  // const [ productLike, setProductLike ] = useState( false )
+  const [ booked, setBooked ] = useState({})
   const [ prodBasket, setProdBasket ] = useState([])
   
   const state = {
+    userBooked: booked,
+    setUserBooked: props => { setBooked(props) },
     // permission for User after Login
     userIsLogged: isLogged,
     setUserIsLogged: e => { setIsLogged( e ) },
