@@ -1,12 +1,12 @@
-import { useContext } from 'react';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import Divider from '@material-ui/core/Divider';
-import ListItemText from '@material-ui/core/ListItemText';
-import ListItemAvatar from '@material-ui/core/ListItemAvatar';
-import Avatar from '@material-ui/core/Avatar';
-import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
+import { useContext, Fragment } from 'react'
+import List from '@material-ui/core/List'
+import ListItem from '@material-ui/core/ListItem'
+import Divider from '@material-ui/core/Divider'
+import ListItemText from '@material-ui/core/ListItemText'
+import ListItemAvatar from '@material-ui/core/ListItemAvatar'
+import Avatar from '@material-ui/core/Avatar'
+import Grid from '@material-ui/core/Grid'
+import Typography from '@material-ui/core/Typography'
 
 import { MyState } from '../../GlobalState'
 
@@ -15,28 +15,38 @@ import { useStyles } from './style/orderedItems'
 function OrderedItems(){
   const classes = useStyles();
   const { userBooked } = useContext( MyState )
+
   return (
     <List>
-      <ListItem alignItems="flex-start">
-        <ListItemAvatar>
-          <Avatar alt="Remy Sharp" src="./photos/header/food1.jpg" />
-        </ListItemAvatar>
-        <ListItemText
-          primary="Kartoshka Fri"
-          secondary={
-            <>
-              <Typography
-                component="span"
-                variant="body2"
-                color="textPrimary"
-              >
-                5 x
-              </Typography>
-              {" $34 "}
-            </>
-          }
-        />
-      </ListItem>
+      {
+        Object.values(userBooked.ta).map( (item, ind) => {
+          return (
+            <Fragment key={ ind }>
+              <ListItem alignItems="flex-start">
+                <ListItemAvatar>
+                {/* src="./photos/header/food1.jpg" */}
+                  <Avatar alt="Remy Sharp"> P </Avatar>
+                </ListItemAvatar>
+                <ListItemText
+                  primary={ item.name }
+                  secondary={
+                    <>
+                      <Typography
+                        component="span"
+                        variant="body2"
+                        color="textPrimary"
+                      >
+                        $ { item.o }
+                      </Typography>
+                    </>
+                  }
+                />
+              </ListItem>
+              <Divider variant="inset" component="li" />
+            </Fragment>
+          )
+        } )
+      }
     <Divider variant="inset" component="li" />
 
       {/* summary   */}
@@ -45,7 +55,7 @@ function OrderedItems(){
           <Typography className={ classes.summaryOfItemsTitle }>Total:</Typography>
         </Grid>
         <Grid className={ classes.summaryOfItems } item xs={6}>
-          <Typography className={ classes.summaryOfItemsTitle }> $ 20 </Typography>
+          <Typography className={ classes.summaryOfItemsTitle }> $ { userBooked.summ } </Typography>
         </Grid>
       </Grid>
     </List>
