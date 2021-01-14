@@ -1,4 +1,4 @@
-import React, { useState, forwardRef } from 'react';
+import { useState, forwardRef, useContext } from 'react';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import Container from '@material-ui/core/Container';
@@ -8,7 +8,7 @@ import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import CloseIcon from '@material-ui/icons/Close';
 import Slide from '@material-ui/core/Slide';
-
+import { MyState } from '../../GlobalState'
 import ItemsInfo from './itemsInfo'
 
 import { useStyles } from './style/shoppingCardStyle'
@@ -18,13 +18,17 @@ import { Link } from 'react-router-dom'
 const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
-function BuyButton(){
+function BuyButton(props){
   const classes = useStyles()
+  // Global State
+  const { setUserBooked, userBooked } = useContext( MyState )
+
 
   const [open, setOpen] = useState(false);
 
   const handleClickOpen = () => {
-    setOpen(true);
+    setOpen(true)
+    setUserBooked( {summ:props.summ,ta: props.ta} )
   };
 
   const handleClose = () => {

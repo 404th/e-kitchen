@@ -27,11 +27,13 @@ export const useStyles = makeStyles( theme => ({
     color:"#fff",
     fontSize: "25px",
     fontWeight: "bolder",
+    userSelect:"none"
   },
   shoppingCardOverallSummPrice: {
     color:"#fff",
     fontSize: "25px",
     fontWeight: "bolder",
+    userSelect:"none"
   },
   buyButtonContainer:{
     display:"flex",

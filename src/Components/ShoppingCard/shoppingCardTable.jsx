@@ -1,4 +1,4 @@
-import { useContext } from 'react'
+import { useContext, useState, useEffect } from 'react'
 import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
@@ -19,7 +19,19 @@ import BuyButton from './buyButton'
 
 function ShoppingCardTable(){
   const classes = useStyles()
-  const { userProducts, userProdBasket } = useContext( MyState )
+  const {
+    userProducts,
+    userProdBasket,
+    setUserProducts,
+    setUserProdBasketUpdater,
+    setUserBooked
+  } = useContext( MyState )
+
+  // refresh
+  useEffect( () => {
+    setUserProducts()
+    setUserProdBasketUpdater()
+  }, [] )
 
   const StyledTableCell = withStyles((theme) => ({
     head: {
@@ -42,14 +54,64 @@ function ShoppingCardTable(){
   function createData(name, price, quantity, summ) {
     return { name, price, quantity, summ };
   }
-  
-  // const rows = [
-  //   createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-  //   createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-  //   createData('Eclair', 262, 16.0, 24, 6.0),
-  //   createData('Cupcake', 305, 3.7, 67, 4.3),
-  //   createData('Gingerbread', 356, 16.0, 49, 3.9),
-  // ];
+
+  // for quantity
+  const [ ta, setTa ] = useState({})
+  // quantity
+  function quantityFunc( id, price, type ){
+    if( type === "quantity" ){
+      if( ta[id] ){
+        return ta[id].n
+      } else {
+        setTa({ ...ta, [id]:{ n:1, o: Number(price) } })
+        return 1
+      }
+    } else if ( type === "overall" ) {
+      if( ta[id] ){
+        return ta[id].o
+      } else {
+        setTa({ ...ta, [id]:{ n:1, o: Number(price) } })
+        setSumm( summ + Number(price) )
+        return price
+      }
+    }
+  }
+  // onClick={ () => { handleIncrementQuantity( prod._id ) } }
+  const handleChangeQuantity = (prodId, price, type) => {
+    switch ( type ){
+      case "inc" :
+        setTa({
+          ...ta,
+          [prodId]:{
+            n:Number([ta[prodId].n])+1,
+            o:Number(ta[prodId].o)+Number( price )
+          } 
+        })
+        setSumm( Number(summ) + Number( price ) )
+        break;
+      case "dec" :
+        if ( ta[prodId].n > 1 ) {
+          setTa({
+            ...ta,
+            [prodId]:{
+              n:Number([ta[prodId].n])-1,
+              o:Number(ta[prodId].o)-Number( price )
+            }
+          })
+          setSumm( Number(summ) - Number(price) )
+        } else {
+          setTa( ta )
+        }
+        break;
+      default :
+        setTa( ta )
+        break;
+    }
+  }
+  // summ
+  const [ summ, setSumm ] = useState(0)
+
+  //
 
   return (
     <TableContainer component={Paper}>
@@ -68,7 +130,12 @@ function ShoppingCardTable(){
         <TableBody>
           { userProdBasket.length > 0 && userProducts.length > 0 ? userProducts.map( prod => {
               if ( userProdBasket.includes( prod._id ) ) {
-                let row = createData( prod.productName, prod.productPrice, 1, prod.productPrice*1, 12 )
+                let row = createData(
+                    prod.productName,
+                    prod.productPrice,
+                    quantityFunc( prod._id, prod.productPrice, "quantity" ),
+                    quantityFunc( prod._id, prod.productPrice, "overall" )
+                )
                 return <StyledTableRow key={row.name}>
                   <StyledTableCell className={ classes.avatarItemInCard } component="th" scope="row">
                     <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
@@ -76,19 +143,26 @@ function ShoppingCardTable(){
                   <StyledTableCell align="center">{row.name}</StyledTableCell>
                   <StyledTableCell align="center">{row.price}</StyledTableCell>
                   <StyledTableCell align="center">
-                  <Button color="primary">
+                  <Button
+                    color="primary"
+                    onClick={ () => { handleChangeQuantity( prod._id, prod.productPrice, "inc" ) } }  
+                  >
                     +
                   </Button>
                   <Typography className={ classes.quantityNum } variant={"body1"}>
                     { row.quantity }
                   </Typography>
-                  <Button color="secondary">
+                  <Button
+                    color="secondary"
+                    onClick={ () => { handleChangeQuantity( prod._id, prod.productPrice, "dec" ) } }
+                  >
                     -
                   </Button>
                   </StyledTableCell>
                   <StyledTableCell align="center">{row.summ}</StyledTableCell>
                 </StyledTableRow>
               }
+              { console.log( ta ) }
             }) : [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ].map(pro => {
                 <StyledTableRow key={ pro }>
                   <StyledTableCell align="center"></StyledTableCell>
@@ -114,11 +188,15 @@ function ShoppingCardTable(){
         </TableBody>
       </Table>
       <Grid className={ classes.shoppingCardOverallSumm } item xs={12}>
-          <Typography className={ classes.shoppingCardOverallSummTitle }> Overall: </Typography>
-          <Typography className={ classes.shoppingCardOverallSummPrice }> $199 </Typography>
+        <Typography className={ classes.shoppingCardOverallSummTitle }> Overall: </Typography>
+        <Typography className={ classes.shoppingCardOverallSummPrice }> $ { summ } </Typography>
       </Grid>
-      <Grid className={ classes.buyButtonContainer } item xs={12}>
-        <BuyButton />
+      <Grid
+        className={ classes.buyButtonContainer }
+        item
+        xs={12}
+      >
+        <BuyButton summ={summ} ta={ta} />
       </Grid>
     </TableContainer>
   )

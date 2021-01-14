@@ -1,14 +1,15 @@
-import React, { useState } from 'react'
+import { useState, useContext } from 'react'
 import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
 import Button from '@material-ui/core/Button'
 import TextField from '@material-ui/core/TextField';
-
+import { MyState } from '../../GlobalState'
 import { useStyles } from './style/shoppingCardStyle'
 
 import OrderedItems from './orderedItems'
 
 function ItemsInfo(){
+  const { userBooked } = useContext( MyState )
   const classes = useStyles()
 
   const [ addressValues, setAddressValues ] = useState({
