@@ -18,17 +18,17 @@ import { Link } from 'react-router-dom'
 const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
+
 function BuyButton(props){
   const classes = useStyles()
   // Global State
-  const { setUserBooked, userBooked } = useContext( MyState )
-
+  const { setUserBooked } = useContext( MyState )
 
   const [open, setOpen] = useState(false);
 
   const handleClickOpen = () => {
+    setUserBooked( props )
     setOpen(true)
-    setUserBooked( {summ:props.summ,ta: props.ta} )
   };
 
   const handleClose = () => {
@@ -37,7 +37,6 @@ function BuyButton(props){
 
   // sending items to BACK
   const handleOrderItems = e => {
-    console.log( e )
     handleClose()
   }
 

@@ -58,19 +58,19 @@ function ShoppingCardTable(){
   // for quantity
   const [ ta, setTa ] = useState({})
   // quantity
-  function quantityFunc( id, price, type ){
+  function quantityFunc( id, price, type, name ){
     if( type === "quantity" ){
       if( ta[id] ){
         return ta[id].n
       } else {
-        setTa({ ...ta, [id]:{ n:1, o: Number(price) } })
+        setTa({ ...ta, [id]:{ n:1, o: Number(price), name } })
         return 1
       }
     } else if ( type === "overall" ) {
       if( ta[id] ){
         return ta[id].o
       } else {
-        setTa({ ...ta, [id]:{ n:1, o: Number(price) } })
+        setTa({ ...ta, [id]:{ n:1, o: Number(price), name } })
         setSumm( summ + Number(price) )
         return price
       }
@@ -133,8 +133,8 @@ function ShoppingCardTable(){
                 let row = createData(
                     prod.productName,
                     prod.productPrice,
-                    quantityFunc( prod._id, prod.productPrice, "quantity" ),
-                    quantityFunc( prod._id, prod.productPrice, "overall" )
+                    quantityFunc( prod._id, prod.productPrice, "quantity", prod.productName ),
+                    quantityFunc( prod._id, prod.productPrice, "overall", prod.productName )
                 )
                 return <StyledTableRow key={row.name}>
                   <StyledTableCell className={ classes.avatarItemInCard } component="th" scope="row">
@@ -162,7 +162,6 @@ function ShoppingCardTable(){
                   <StyledTableCell align="center">{row.summ}</StyledTableCell>
                 </StyledTableRow>
               }
-              { console.log( ta ) }
             }) : [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ].map(pro => {
                 <StyledTableRow key={ pro }>
                   <StyledTableCell align="center"></StyledTableCell>
