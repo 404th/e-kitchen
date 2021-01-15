@@ -21,6 +21,7 @@ function Home(){
     <Grid container>
       <Sidebar />
       <Grid className={ classes.goodsContainer } item xs={12} sm={8} md={9} lg={10}>
+        <img className={ classes.home_background_img } src="./photos/profile/backgrouund_2.svg" alt="home_background image"/>
         <Goods />
       </Grid>
     </Grid>

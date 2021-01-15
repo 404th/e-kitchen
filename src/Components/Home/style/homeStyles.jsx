@@ -6,6 +6,12 @@ export const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
   },
+  home_background_img:{
+    position:"absolute",
+    width:"80%",
+    zIndex:"-10",
+    opacity:"0.1",
+  },
   appBar: {
     zIndex: theme.zIndex.drawer + 1,
   },

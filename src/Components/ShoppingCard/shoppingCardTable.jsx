@@ -77,14 +77,15 @@ function ShoppingCardTable(){
     }
   }
   // onClick={ () => { handleIncrementQuantity( prod._id ) } }
-  const handleChangeQuantity = (prodId, price, type) => {
+  const handleChangeQuantity = (prodId, price, type, name) => {
     switch ( type ){
       case "inc" :
         setTa({
           ...ta,
           [prodId]:{
             n:Number([ta[prodId].n])+1,
-            o:Number(ta[prodId].o)+Number( price )
+            o:Number(ta[prodId].o)+Number( price ),
+            name
           } 
         })
         setSumm( Number(summ) + Number( price ) )
@@ -95,7 +96,8 @@ function ShoppingCardTable(){
             ...ta,
             [prodId]:{
               n:Number([ta[prodId].n])-1,
-              o:Number(ta[prodId].o)-Number( price )
+              o:Number(ta[prodId].o)-Number( price ),
+              name
             }
           })
           setSumm( Number(summ) - Number(price) )
@@ -145,7 +147,7 @@ function ShoppingCardTable(){
                   <StyledTableCell align="center">
                   <Button
                     color="primary"
-                    onClick={ () => { handleChangeQuantity( prod._id, prod.productPrice, "inc" ) } }  
+                    onClick={ () => { handleChangeQuantity( prod._id, prod.productPrice, "inc", prod.productName ) } }  
                   >
                     +
                   </Button>
@@ -154,7 +156,7 @@ function ShoppingCardTable(){
                   </Typography>
                   <Button
                     color="secondary"
-                    onClick={ () => { handleChangeQuantity( prod._id, prod.productPrice, "dec" ) } }
+                    onClick={ () => { handleChangeQuantity( prod._id, prod.productPrice, "dec", prod.productName ) } }
                   >
                     -
                   </Button>

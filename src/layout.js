@@ -5,6 +5,7 @@ import Home from './Components/Home/home'
 import ShoppingCard from './Components/ShoppingCard/shoppingCard'
 import OrderSuccess from './Components/OrderSuccess/orderSuccess'
 import Orders from './Components/Orders/orders'
+import Profile from './Components/Profile/profile'
 import Products from './Components/Products/products'
 import Signup from './Components/Form/Signup/signup'
 import Login from './Components/Form/Login/login'
@@ -18,6 +19,7 @@ function Layout(){
     <Switch>
       <Route exact path={"/"} component={ Display } />
       <Route exact path={"/home"} component={ () => Auth(Home) } />
+      <Route exact path={"/profile"} component={ () => Auth(Profile) } />
       <Route exact path={"/shopping-card"} component={ () => Auth(ShoppingCard) } />
       <Route exact path={"/order-success"} component={ () => Auth(OrderSuccess) } />
       <Route exact path={"/orders"} component={ () => Auth(Orders) } />

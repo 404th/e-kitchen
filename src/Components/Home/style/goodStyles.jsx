@@ -81,7 +81,7 @@ export const useStyles = makeStyles((theme) => ({
     fontWeight:"bold",
     color:"#0e49b5",
     userSelect:"none",
-    fontFamily:"Perpetua !important",
+    fontFamily: "'Nunito', sans-serif"
   },
   // delete and add buttons
   addToBasketButton:{
