@@ -48,12 +48,13 @@ function Header(){
   const handleMenuClose = () => {
     setMobileMoreAnchorEl(null)
     // FOR EVERYBODY;
-    setAnchorEl(null);
-    handleMobileMenuClose();
+    setAnchorEl(null)
+    handleMobileMenuClose()
   };
   const handleMobileMenuOpen = (event) => {
     setMobileMoreAnchorEl(event.currentTarget);
-  };
+  }
+
   const menuId = 'primary-search-account-menu';
   const renderMenu = (
     <Menu
@@ -65,10 +66,9 @@ function Header(){
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <Profile />
-      {/* <MenuItem className={ classes.menuItemLinkCover } onClick={handleMenuClose}>
+      <MenuItem className={ classes.menuItemLinkCover } onClick={handleMenuClose}>
         <Link className={ classes.menuItemLink } to={"/profile"}>Profile</Link>
-      </MenuItem> */}
+      </MenuItem>
       <MenuItem className={ classes.menuItemLinkCover } onClick={handleMenuClose}>
         <Link className={ classes.menuItemLink } to={"/my-orders"}>My Orders</Link>
       </MenuItem>
@@ -155,7 +155,12 @@ function Header(){
         <AppBar position="static">
           <Toolbar>
             <Link to={"/home"}>
-              <img className={classes.brand} src={`/photos/header/food.png`} alt="Food" width={"40px"}/>
+              <img
+                className={classes.brand}
+                src={`/photos/header/food.png`}
+                alt="Food"
+                width={"40px"}
+              />
             </Link>
             {
               window.location.pathname === "/home" ? (<div className={classes.search}>
