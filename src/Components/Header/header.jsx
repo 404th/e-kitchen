@@ -7,9 +7,9 @@ import InputBase from '@material-ui/core/InputBase';
 import Typography from '@material-ui/core/Typography' 
 import Badge from '@material-ui/core/Badge';
 import MenuItem from '@material-ui/core/MenuItem';
+import AccountCircle from '@material-ui/icons/AccountCircle';
 import Menu from '@material-ui/core/Menu';
 import SearchIcon from '@material-ui/icons/Search';
-import AccountCircle from '@material-ui/icons/AccountCircle';
 import MoreIcon from '@material-ui/icons/MoreVert';
 import LocalPharmacyRoundedIcon from '@material-ui/icons/LocalPharmacyRounded';
 //react-router-dom
@@ -18,6 +18,8 @@ import { MyState } from '../../GlobalState'
 import { useStyles } from './style/headerStyle'
 import axios from 'axios'
 import { SERVER_URL } from '../../store'
+
+import Profile from '../Profile/profile'
 
 function Header(){
   // Global state
@@ -63,9 +65,10 @@ function Header(){
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem className={ classes.menuItemLinkCover } onClick={handleMenuClose}>
+      <Profile />
+      {/* <MenuItem className={ classes.menuItemLinkCover } onClick={handleMenuClose}>
         <Link className={ classes.menuItemLink } to={"/profile"}>Profile</Link>
-      </MenuItem>
+      </MenuItem> */}
       <MenuItem className={ classes.menuItemLinkCover } onClick={handleMenuClose}>
         <Link className={ classes.menuItemLink } to={"/my-orders"}>My Orders</Link>
       </MenuItem>
@@ -117,7 +120,8 @@ function Header(){
           <p>Items</p>
         </MenuItem>
       </Link>
-      <MenuItem onClick={handleProfileMenuOpen}>
+      <Profile />
+      {/* <MenuItem onClick={handleProfileMenuOpen}>
         <IconButton
           aria-label="account of current user"
           aria-controls="primary-search-account-menu"
@@ -127,7 +131,7 @@ function Header(){
           <AccountCircle />
         </IconButton>
         <p>Profile</p>
-      </MenuItem>
+      </MenuItem> */}
     </Menu>
   );
   // LIVE SEARCH PRODUCT
