@@ -3,7 +3,8 @@ import ReactDOM from 'react-dom';
 import reportWebVitals from './reportWebVitals';
 import "../node_modules/normalize.css"
 import App from './App'
-import { BrowserRouter as Router } from 'react-router-dom'
+// import { BrowserRouter as Router } from 'react-router-dom'
+import { HashRouter as Router } from 'react-router-dom'
 // GLOBAL STORE
 import GlobalState from './GlobalState'
 
