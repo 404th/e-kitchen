@@ -15,7 +15,7 @@ const {
 router.get( "/", verifyToken, auth_payload_get )
 
 // PATCH - /user/edit/:id
-router.patch( "/edit/:id", verifyToken, auth_edit_patch )
+router.patch( "/edit", verifyToken, auth_edit_patch )
 
 // DELETE - /user/delete?id=id
 router.delete( "/delete/:id", verifyToken, auth_delete_delete )

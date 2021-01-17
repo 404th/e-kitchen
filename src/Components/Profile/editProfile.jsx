@@ -10,9 +10,9 @@ function EditProfile() {
 
   // setting values of the form
   const [ editedProfileData, setEditedProfileData ] = useState({
-    editedUsername:"",
-    editedEmail:"",
-    editedPassword:""
+    username:"",
+    email:"",
+    password:""
   })
   const handleSetEditedProfileData = e => {
     const { name, value } = e.target
@@ -35,8 +35,8 @@ function EditProfile() {
             id="editedUsername"
             label="Username"
             type={"text"}
-            value={ editedProfileData.editedUsername }
-            name={"editedUsername"}
+            value={ editedProfileData.username }
+            name={"username"}
             className={ classes.formContainer_textField }
             onChange={ e => {handleSetEditedProfileData(e)} }
             variant="outlined"
@@ -45,8 +45,8 @@ function EditProfile() {
             id="editedEmail"
             label="Email"
             type={"email"}
-            value={ editedProfileData.editedEmail }
-            name={"editedEmail"}
+            value={ editedProfileData.email }
+            name={"email"}
             className={ classes.formContainer_textField }
             onChange={ e => {handleSetEditedProfileData(e)} }
             variant="outlined"
@@ -55,8 +55,8 @@ function EditProfile() {
             id="editedPassword"
             label="Password"
             type={"password"}
-            value={ editedProfileData.editedPassword }
-            name={"editedPassword"}
+            value={ editedProfileData.password }
+            name={"password"}
             onChange={ e => {handleSetEditedProfileData(e)} }
             className={ classes.formContainer_textField }
             variant="outlined"
@@ -74,7 +74,17 @@ function EditProfile() {
       </Grid>
       <Grid item xs={12}>
         <div className={ classes.buttonCover }>
-          <Button variant={"outlined"} color={"secondary"}>Clear</Button>
+          <Button
+            variant={"outlined"}
+            color={"secondary"}
+            onClick={ () => {
+              setEditedProfileData({
+                username:"",
+                email:"",
+                password:""
+              })}
+            }
+          >Clear</Button>
           <Button variant={"contained"} color={"primary"}>Submit</Button>
         </div>
       </Grid>

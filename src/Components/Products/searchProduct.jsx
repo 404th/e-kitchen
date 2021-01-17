@@ -28,9 +28,11 @@ function SearchProduct(){
           return item.productName.toLowerCase().match( selectedProds.elastic_search.toLowerCase() )
         } else {
           setSearchedProduct([])
+          return 0
         }
       })
       setSearchedProduct( selected )
+      return 0
     }
   }, [ selectedProds ] )
   

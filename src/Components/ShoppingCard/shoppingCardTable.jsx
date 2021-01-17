@@ -23,8 +23,7 @@ function ShoppingCardTable(){
     userProducts,
     userProdBasket,
     setUserProducts,
-    setUserProdBasketUpdater,
-    setUserBooked
+    setUserProdBasketUpdater
   } = useContext( MyState )
 
   // refresh

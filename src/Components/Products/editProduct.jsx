@@ -9,11 +9,11 @@ import Select from '@material-ui/core/Select';
 import axios from 'axios'
 import { SERVER_URL } from '../../store'
 import { MyState } from '../../GlobalState'
-import { useStyles } from './style/productsStyle'
+// import { useStyles } from './style/productsStyle'
 
 function EditProduct(props) {
   // styles
-  const classes = useStyles()
+  // const classes = useStyles()
 
   const { setUserProducts } = useContext( MyState )
   const [ open, setOpen ] = useState(false);

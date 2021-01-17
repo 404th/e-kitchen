@@ -41,4 +41,10 @@ export const useStyles = makeStyles( theme => ({
     height:"60vh",
     backgroundPosition:"center",
   },
+  orderSuccessButtonToHome:{
+    width:"100%",
+    height:"50px",
+    fontSize:"24px",
+    fontFamily: "'Langar', cursive",
+  }
 }) )

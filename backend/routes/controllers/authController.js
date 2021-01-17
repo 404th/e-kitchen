@@ -63,28 +63,29 @@ const auth_delete_delete = async (req, res) => {
   }
 }
 
-// PATCH - /user/delete?id=id
+// PATCH - /user/edit?id
 const auth_edit_patch = async (req, res) => {
   try {
     const { id } = req.query
-    consolq.log( req.query )
+    console.log( req.query )
     // Check if User exist
     const existUser = await User.findById( id )
     if( existUser ){
       // Hash password
       let shouldSend = req.body
       // check if password exists to change
-      
       if ( shouldSend.password ){
         const salt = await bcrypt.genSalt()
         const hashedPassword = await bcrypt.hash( shouldSend.password, salt )
         shouldSend.password = hashedPassword
       }
-
       // Update the user
       const updatedUser = await User.updateOne(
         { _id: new ObjectId( id.toString() ) },
-        { $set:{ ...shouldSend } },
+        { 
+          $set:{ ...shouldSend },
+          $currentDate:{ lastModified: true }
+        },
         { upsert: true }
       )
       // Check after updating
