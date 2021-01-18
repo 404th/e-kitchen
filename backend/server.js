@@ -32,6 +32,8 @@ const authRoute = require("./routes/authRoute")
 app.use( '/user', authRoute )
 const prodRoute = require("./routes/prodRoute")
 app.use( '/product', prodRoute )
+const orderRoute = require("./routes/orderRoute")
+app.use( '/order', orderRoute )
 
 // listening server
 app.listen( PORT, () => console.log( `SERVER is running on PORT - ${ PORT }` ) )
