@@ -2,8 +2,9 @@
 import { useStyles } from './style/loadingStyle'
 import Loader from 'react-loader-spinner'
 
-function Loading () {
+function LoadingComponent () {
   const classes = useStyles()
+  
   return (
     <div className={ classes.loading_cover }>
       <Loader
@@ -16,4 +17,4 @@ function Loading () {
   )
 }
 
-export default Loading
+export default LoadingComponent

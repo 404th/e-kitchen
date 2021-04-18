@@ -89,6 +89,7 @@ function Header(){
             axios.get( `${ SERVER_URL }/user/logout` )
             // clear products and users after logging out
             localStorage.removeItem("currentUser")
+            localStorage.removeItem("userToken")
             setFilteredProduct([])
             setUserHeaderSearched([])
             setSearchedProduct([])
@@ -146,7 +147,7 @@ function Header(){
             <Link to={"/home"}>
               <img
                 className={classes.brand}
-                src={`/photos/header/food.png`}
+                src={`./photos/header/food.png`}
                 alt="Food"
                 width={"40px"}
               />

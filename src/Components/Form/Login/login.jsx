@@ -48,7 +48,9 @@ function Login (props) {
       })
 
       if ( loggedUser ) {
+        console.log( loggedUser.data )
         localStorage.setItem( "currentUser", JSON.stringify( loggedUser.data.data ) )
+        localStorage.setItem( "userToken", JSON.stringify( loggedUser.data.token ) )
         setUserIsLogged( true )
         // switch loading off
         setLoading( false )

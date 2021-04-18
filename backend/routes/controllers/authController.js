@@ -199,7 +199,8 @@ const auth_login_post = valResult => async (req, res) => {
       if( match ){
         return res.status( 200 ).json({
           message:"User login!",
-          data: existUser
+          data: existUser,
+          token
         })
       } else {
         return res.status( 401 ).json({
@@ -251,8 +252,8 @@ const auth_logout_get = async (req, res) => {
   })
 }
 
-// GET - /user/is-logged
-const auth_isLogged_get = async (req, res) => {
+// POST - /user/is-logged
+const auth_isLogged_post = async (req, res) => {
   return res.status(200).json({
     message:"User is logged in",
     data:{
@@ -269,5 +270,5 @@ module.exports = {
   auth_delete_delete,
   auth_payload_get,
   auth_logout_get,
-  auth_isLogged_get
+  auth_isLogged_post
 }

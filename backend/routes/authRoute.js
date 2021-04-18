@@ -8,17 +8,20 @@ const {
   auth_delete_delete,
   auth_payload_get,
   auth_logout_get,
-  auth_isLogged_get
+  auth_isLogged_post
 } = require("./controllers/authController")
 
 // GET - /user
-router.get( "/", verifyToken, auth_payload_get )
+// router.get( "/", verifyToken, auth_payload_get )
+router.get( "/", auth_payload_get )
 
 // PATCH - /user/edit/:id
-router.patch( "/edit", verifyToken, auth_edit_patch )
+// router.patch( "/edit", verifyToken, auth_edit_patch )
+router.patch( "/edit", auth_edit_patch )
 
 // DELETE - /user/delete?id=id
-router.delete( "/delete/:id", verifyToken, auth_delete_delete )
+// router.delete( "/delete/:id", verifyToken, auth_delete_delete )
+router.delete( "/delete/:id", auth_delete_delete )
 
 // POST - /user/signup
 router.post( "/signup",[
@@ -36,8 +39,8 @@ router.post( "/login", [
 // GET - /user/logout
 router.get( "/logout", auth_logout_get )
 
-// GET - /user/is-logged
-router.get( "/is-logged", verifyToken, auth_isLogged_get )
+// POST - /user/is-logged
+router.post( "/is-logged", verifyToken, auth_isLogged_post )
 
 // export routers
 module.exports = router

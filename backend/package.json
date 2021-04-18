@@ -4,6 +4,7 @@
   "description": "Backend for E-kitchen web-app",
   "main": "server.js",
   "scripts": {
+    "start":"nodemon server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -24,7 +25,9 @@
     "express-validator": "^6.8.0",
     "jsonwebtoken": "^8.5.1",
     "mongodb": "^3.6.3",
-    "mongoose": "^5.11.8",
+    "mongoose": "^5.11.8"
+  },
+  "devDependencies": {
     "nodemon": "^2.0.7"
   }
 }

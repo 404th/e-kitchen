@@ -6,7 +6,7 @@ const cors = require("cors")
 const dotenv = require("dotenv")
 dotenv.config({ path:`${ __dirname }/.env` })
 // consts from .env
-const { PORT, MONGODB_URL } = process.env
+const { PORT = 5000, MONGODB_URL } = process.env
 mongoose.Promise = global.Promise
 // SET to MongoDB
 mongoose.connect( MONGODB_URL, {

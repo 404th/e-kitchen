@@ -1,9 +1,11 @@
 const jwt = require("jsonwebtoken")
 
 const verifyToken = (req, res, next) => {
-  if ( req.cookies ){
-    const { userToken } = req.cookies
+  if ( req.body ){
+    const { userToken } = req.body
+
     if ( userToken ){
+      console.log( userToken )
       jwt.verify( userToken, "compilation error 404", (err, decod) => {
         if (err) {
           // error: invalid verification token
@@ -19,6 +21,7 @@ const verifyToken = (req, res, next) => {
         }
       } )
     } else {
+      console.log( "userToken not found" )
       // error: user has not token
       return res.status(200).json({
         message:"User has no token!",

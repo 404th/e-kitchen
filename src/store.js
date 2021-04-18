@@ -1,5 +1,6 @@
 // SERVER_URL
-export const SERVER_URL = "http://localhost:5000"
+// export const SERVER_URL = "http://localhost:5000"
+export const SERVER_URL = "https://e-kitchen-app.herokuapp.com"
 // GEOLOCATION OUR HOME
 export const MY_HOME_LOCATION = "https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d623.3356474398811!2d63.55518213827872!3d42.15689763780846!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e1!3m2!1sru!2s!4v1608210485550!5m2!1sru!2s"
 // IMAGE NOT FOUND
